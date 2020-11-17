@@ -8,6 +8,7 @@ image_load_list = [["walk_1","걷기 1", (80, 80)], ["walk_2","걷기 2", (80, 8
 for image_load in image_load_list:
     globals()[image_load[0]] = pg.transform.scale(pg.image.load("{}.PNG".format(image_load[1])), image_load[2])
 
+
 random_obstacle_list = [(obstacle_1, (120, 100)), (obstacle_2, (90, 90)), (obstacle_3, (50, 100)), (obstacle_4, (130, 86))]
 
 screen = pg.display.set_mode((1000, 500))
@@ -35,9 +36,9 @@ def game_set():
     obstacle_list = []
     die = False
 
+
 def d_dino():
     global walk_image, walk_image2
-    
     if die:
         screen.blit(die_image, (dino_x, dino_y))
     else:
@@ -46,12 +47,10 @@ def d_dino():
         else:
             if walk_image % 2 == 1:
                 screen.blit(walk_1, (dino_x, dino_y))
-                
             else:
                 screen.blit(walk_2, (dino_x, dino_y))
             if walk_image2 % 10 == 0:
                 walk_image += 1
-
 
 def u_dino():
     global  walk_image2
@@ -74,7 +73,7 @@ def u_obstacle():
             obstacle_list.remove(obstacle)
         else:
             obstacle[1][0] -= game_speed
-        add_obstacle += 1
+    add_obstacle += 1
 
 def d_obstacle():
     for obstacle in obstacle_list:
@@ -119,20 +118,17 @@ while True:
                     if not jump:
                         jump = True
                         jump_speed = 15
-                        
                 else:
                     die = False
                     game_set()
 
-                    
     u_dino()
     d_background()
     d_obstacle()
     d_dino()
 
-
     if not die:
-    
+
         u_obstacle()
 
         if check_collision():
@@ -144,4 +140,5 @@ while True:
         d_gameover()
 
     pg.display.update()
+
     time.sleep(0.008)
