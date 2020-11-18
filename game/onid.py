@@ -5,13 +5,13 @@ import random
 
 image_load_list = [["walk_1", "걷기 1", (80, 80)], ["walk_2", "걷기 2", (80, 80)], ["dino_image", "dino", (80, 80)],
                    ["obstacle_1", "가위괴물", (100, 100)], ["obstacle_2", "바위괴물", (100, 100)],
-                   ["obstacle_3", "보괴물", (100, 100)], ["t_gameover", "게임오버_글자", (480, 30)],
+                   ["obstacle_3", "보자기괴물", (100, 100)], ["obstacle_4", "보괴물", (100, 100)], ["t_gameover", "게임오버_글자", (480, 30)],
                    ["gameover_image", "게임오버 다시하기", (88, 80)], ["die_image", "dino die", (80, 80)]]
 
 for image_load in image_load_list:
     globals()[image_load[0]] = pg.transform.scale(pg.image.load("{}.PNG".format(image_load[1])), image_load[2])
 
-random_obstacle_list = [(obstacle_1, (100, 100)), (obstacle_2, (100, 100)), (obstacle_3, (100, 100))]
+random_obstacle_list = [(obstacle_1, (100, 100)), (obstacle_2, (100, 100)), (obstacle_3, (100, 100)),(obstacle_4, (100, 100))]
 
 screen = pg.display.set_mode((1000, 500))
 pg.display.set_caption("Open source 9")
@@ -76,7 +76,6 @@ def u_obstacle():
         random_list = random_obstacle_list[random.randint(0, 2)]
         obstacle_list.append([random_list[0], [1000, random.randint(460, 470) - random_list[1][1]], random_list])
         add_obstacle = 0
-        action()
 
     for obstacle in obstacle_list:
         if obstacle[2] == random_obstacle_list[0]:
@@ -88,7 +87,11 @@ def u_obstacle():
                 obstacle_list.remove(obstacle)
 
 
-        if obstacle[2] == random_obstacle_list[2]:
+        if obstacle[2] == random_obstacle_list[2]  :
+            if action() == "sicssor" :
+                obstacle_list.remove(obstacle)
+
+        if obstacle[2] == random_obstacle_list[3]  :
             if action() == "sicssor" :
                 obstacle_list.remove(obstacle)
 
@@ -156,7 +159,7 @@ while True:
             pg.quit()
             sys.quit()
 
-
+    action()
     u_dino()
     d_background()
     d_obstacle()
