@@ -12,11 +12,11 @@ def draw_matrix(m):
     for y in range(m.get_dy()):
         for x in range(m.get_dx()):
             if array[y][x] == 0:
-                print("□", end='')
+                print("□ ", end='')
             elif array[y][x] == 1:
-                print("■", end='')
+                print("■ ", end='')
             else:
-                print("■", end='')
+                print("■ ", end='')
         print()
 
 
@@ -85,7 +85,8 @@ ArrayScreen = [
 
 
 heart = 5
-G_time = 5
+G_time = 1
+score = 0
 
 while (heart > 0):
 
@@ -102,6 +103,7 @@ while (heart > 0):
     iScreen.paste(tempBlk, top, left)
 
     while (G_left >= 5):
+
 
         GunBlk = Matrix(Gun)
         oScreen = Matrix(iScreen)
@@ -139,6 +141,7 @@ while (heart > 0):
         elif key == 'a':  # 가위
             if (num == 3):
                 print("이김")
+                score += 1
                 break
             else:
                 heart -= 1
@@ -147,6 +150,7 @@ while (heart > 0):
         elif key == 's':  # 바위d
             if (num == 1):
                 print("이김")
+                score += 1
                 break
             else:
                 heart -= 1
@@ -155,6 +159,7 @@ while (heart > 0):
         elif key == 'd':  # 보
             if (num == 2):
                 print("이김")
+                score += 1
                 break
             else:
                 heart -= 1
@@ -165,10 +170,16 @@ while (heart > 0):
             break
         else:
             G_left -= 1
-        time.sleep(1)
+
+        time.sleep(G_time)
+
+
+
+    if (G_time > 0.2):
+        G_time -= 0.1
 
     print(heart)
-
+    print(score)
     if (heart == 0):
         print("게임 종료")
         break
