@@ -72,8 +72,7 @@ def set_array_mon(set_mon_num):
                    [0, 0, 0, 1, 1, 1, 0, 0]]
     return mon_Blk
 def prograss(array,score):
-    for i in range(21,21+score):
-        array[3][i] = 1 ## 22부터 30까지
+    array[3][20+score] = 1 ## 22부터 30까지
 
 iScreenDy = 14
 iScreenDx = 30
@@ -261,9 +260,8 @@ G_time = 1
 score = 1
 LED_init()
 while (heart > 0):
-
     G_top = 11
-    G_left = 24
+    G_left = 25
     Boss_top = 2
     Boss_left = 21
     key = 0
@@ -272,8 +270,7 @@ while (heart > 0):
     oScreen = Matrix(iScreen)
     set_mon_num = random.randint(1, 3)
     curr_mon = Matrix(set_array_mon(set_mon_num))
-    tempBlk = iScreen.clip(top, left, top + curr_mon.get_dy(), left + curr_mon.get_dx())
-    tempBlk = tempBlk + curr_mon
+    tempBlk = iScreen.clip(top, left, top + curr_mon.get_dy(), left + curr_mon.get_dx());tempBlk = tempBlk + curr_mon
     iScreen.paste(tempBlk, top, left)
     draw_led(oScreen)
     if (score != 10): #9마리 더 죽이면 보스전으로 이동함 (시작 스코어는 1)
@@ -284,10 +281,7 @@ while (heart > 0):
             G_tempBlk = iScreen.clip(G_top, G_left, G_top + GunBlk.get_dy(), G_left + GunBlk.get_dx())
             G_tempBlk = G_tempBlk + GunBlk
             oScreen.paste(G_tempBlk, G_top, G_left)
-            draw_matrix(oScreen);
-            draw_led(oScreen)
-            print()
-
+            draw_matrix(oScreen);draw_led(oScreen);print()
             print('키를 누르세요: [ \'q\' (quit) / \'a\' (Scissor) / \'s\' (Rock) / \'d\' (Paper) ] \n')
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -348,23 +342,18 @@ while (heart > 0):
             else:
                 G_left -= 1 #총알 움직임
             if (curr_win): # 몬스터를 죽였으면 게임 속도 살짝 빠르게 조정함
-                G_time = 0.93 * G_time
+                G_time = G_time - 0.15
             time.sleep(G_time)
 
     else :
         G_time = 1 #다시 게임시간 간격 원래대로 조정
         while(True):
-
             BossBlk = Matrix(Boss)
             Boss_tempBlk = iScreen.clip(Boss_top, Boss_left, Boss_top + BossBlk.get_dy(), Boss_left + BossBlk.get_dx())
             Boss_tempBlk = Boss_tempBlk + BossBlk
             oScreen.paste(Boss_tempBlk, Boss_top, Boss_left)
-            draw_matrix(oScreen);
-            print()
-
-
+            draw_matrix(oScreen);print()
             Boss_pick = random.randint(1, 3)
-
             print('키를 누르세요: [ \'q\' (quit) / \'a\' (Scissor) / \'s\' (Rock) / \'d\' (Paper) ] \n잘못내면 체력이 깎입니다.')
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -467,7 +456,6 @@ while (heart > 0):
                                  score_10_left + currBlk_10.get_dx())
         tempBlk_10 = tempBlk_10 + currBlk_10
         SoScreen.paste(tempBlk_10, score_10_top, score_10_left)
-        draw_matrix(SoScreen);
-        print()
+        draw_matrix(SoScreen);print()
         print("게임 종료")
         break
