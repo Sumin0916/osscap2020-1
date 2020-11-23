@@ -27,19 +27,16 @@ def draw_led(m):
                 LMD.set_pixel(x,y,1)
             elif 21 <= array[y][x] <= 30:  ## 노란색 출력
                 LMD.set_pixel(x,y,3)
+
 def draw_matrix(m):
     array = m.get_array()
     for y in range(m.get_dy()):
         for x in range(m.get_dx()):
             if array[y][x] == 0:
                 print("□ ", end='')
-            elif array[y][x] == 1:
-                print("■ ", end='')
             else:
                 print("■ ", end='')
         print()
-
-
 def set_array_mon(set_mon_num):
     if set_mon_num == 1:  # scissor
         mon_Blk = [[0, 0, 1, 0, 1, 0, 0, 0],
@@ -233,8 +230,6 @@ ArrayScreen = [
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
-
-
 ScoreScreen =[
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -254,7 +249,6 @@ ScoreScreen =[
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
 ]
-
 heart = 5
 G_time = 1
 score = 1
@@ -344,7 +338,7 @@ while (heart > 0):
             if (curr_win): # 몬스터를 죽였으면 게임 속도 살짝 빠르게 조정함
                 G_time = G_time - 0.15
             time.sleep(G_time)
-
+#############################################BOSS###################################################
     else :
         G_time = 1 #다시 게임시간 간격 원래대로 조정
         while(True):
@@ -435,6 +429,7 @@ while (heart > 0):
     print(heart)
     print(score)
     if (heart == 0):
+        iScreen
         score_10 = score // 10
         score_1 = score % 10
 
