@@ -4,7 +4,6 @@ import threading
 import time
 import random
 import pygame as pg
-
 pg.init()
 screen = pg.display.set_mode((1, 1))
 
@@ -84,46 +83,46 @@ def set_score (score):
     if score == 0:
         score_Blk = [
                     [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 1, 1, 1, 0, 0, 0],
-                    [0, 0, 1, 0, 0, 0, 1, 0, 0],
-                    [0, 0, 1, 0, 0, 0, 1, 0, 0],
-                    [0, 0, 1, 0, 0, 0, 1, 0, 0],
-                    [0, 0, 1, 0, 0, 0, 1, 0, 0],
-                    [0, 0, 0, 1, 1, 1, 0, 0, 0],
                     [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0]]
+                    [0, 0, 0, 1, 1, 1, 0, 0, 0],
+                    [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 0, 1, 1, 1, 0, 0, 0]]
 
     elif score == 1:
-        score_Blk = [[0, 0, 0, 0, 1, 0, 0, 0, 0],
+        score_Blk = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
                     [0, 0, 0, 1, 1, 0, 0, 0, 0],
                     [0, 0, 0, 0, 1, 0, 0, 0, 0],
                     [0, 0, 0, 0, 1, 0, 0, 0, 0],
                     [0, 0, 0, 0, 1, 0, 0, 0, 0],
                     [0, 0, 0, 0, 1, 0, 0, 0, 0],
-                    [0, 0, 1, 1, 1, 1, 1, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0]]
+                    [0, 0, 0, 0, 1, 0, 0, 0, 0],
+                    [0, 0, 1, 1, 1, 1, 1, 0, 0]]
     elif score == 2:
         score_Blk = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
-           [0, 0, 0, 1, 1, 1, 0, 0, 0],
-           [0, 0, 1, 0, 0, 0, 1, 0, 0],
-           [0, 0, 0, 0, 0, 0, 1, 0, 0],
-           [0, 0, 0, 0, 1, 1, 0, 0, 0],
-           [0, 0, 0, 1, 0, 0, 0, 0, 0],
-           [0, 0, 1, 1, 1, 1, 1, 1, 0],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0]]
+                    [0, 0, 0, 1, 1, 1, 0, 0, 0],
+                    [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 0, 0, 1, 1, 1, 0, 0],
+                    [0, 0, 0, 1, 1, 0, 0, 0, 0],
+                    [0, 0, 0, 1, 0, 0, 0, 0, 0],
+                    [0, 0, 1, 1, 1, 1, 1, 1, 0]]
 
     elif score == 3:
         score_Blk = [[0, 0, 0, 1, 1, 1, 0, 0, 0],
-             [0, 0, 1, 0, 0, 0, 1, 0, 0],
-             [0, 0, 0, 0, 0, 0, 1, 0, 0],
-             [0, 0, 0, 0, 1, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0, 0, 1, 0, 0],
-             [0, 0, 1, 0, 0, 0, 1, 0, 0],
-             [0, 0, 0, 1, 1, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0, 0, 0, 0, 0]]
+                     [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                     [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 1, 0, 0],
+                     [0, 0, 0, 0, 1, 1, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 1, 0, 0],
+                     [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                     [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                     [0, 0, 0, 1, 1, 1, 0, 0, 0]]
 
     elif score == 4:
         score_Blk = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -163,11 +162,11 @@ def set_score (score):
              [0, 0, 1, 1, 1, 1, 1, 0, 0],
              [0, 0, 1, 0, 0, 0, 1, 0, 0],
              [0, 0, 1, 0, 0, 0, 1, 0, 0],
+             [0, 0, 0, 0, 0, 0, 1, 0, 0],
              [0, 0, 0, 0, 0, 1, 0, 0, 0],
              [0, 0, 0, 0, 0, 1, 0, 0, 0],
              [0, 0, 0, 0, 0, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0, 0, 0, 0, 0]]
+             [0, 0, 0, 0, 0, 1, 0, 0, 0]]
 
     elif score == 8:
         score_Blk = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -188,8 +187,8 @@ def set_score (score):
             [0, 0, 1, 0, 0, 0, 1, 0, 0],
             [0, 0, 0, 1, 1, 1, 1, 0, 0],
             [0, 0, 0, 0, 0, 0, 1, 0, 0],
-            [0, 0, 0, 1, 1, 1, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0]]
+            [0, 0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 1, 1, 1, 1, 0, 0, 0]]
 
     return score_Blk
 
@@ -307,7 +306,6 @@ while (heart > 0):
                     score += 1
                     break
                 else:
-                    #heart -= 1
                     break
 
             elif key == 'rock':  # 바위
@@ -317,7 +315,6 @@ while (heart > 0):
                     score += 1
                     break
                 else:
-                    #heart -= 1
                     break
 
             elif key == 'paper':  # 보
@@ -327,7 +324,6 @@ while (heart > 0):
                     score += 1
                     break
                 else:
-                    #heart -= 1
                     break
 
             if (G_left == 5): #총알이 닿으면 피 1 깎임
@@ -387,7 +383,6 @@ while (heart > 0):
                         print("보스는 '바위'를 냈습니다.")
                         heart -= 1
 
-
             elif key == 'rock':  # 바위d
                 if (Boss_pick == 1):
                     print("보스는 '가위'를 냈습니다.")
@@ -402,7 +397,6 @@ while (heart > 0):
                     if (Boss_pick == 3):
                         print("보스는 '보'를 냈습니다.")
                         heart -= 1
-
 
             elif key == 'paper':  # 보
                 if (Boss_pick == 2): #주먹
@@ -423,13 +417,10 @@ while (heart > 0):
                 print(heart)
             else:
                 break
-
             time.sleep(10)
-
     print(heart)
     print(score)
     if (heart == 0):
-        iScreen
         score_10 = score // 10
         score_1 = score % 10
 
@@ -442,13 +433,12 @@ while (heart > 0):
         SiScreen = Matrix(ScoreScreen)
         SoScreen = Matrix(SiScreen)
         currBlk_1 = Matrix(set_score(score_1))
-        tempBlk_1 = iScreen.clip(score_1_top, score_1_left, score_1_top + currBlk_1.get_dy(), score_1_left + currBlk_1.get_dx())
+        tempBlk_1 = SiScreen.clip(score_1_top, score_1_left, score_1_top + currBlk_1.get_dy(), score_1_left + currBlk_1.get_dx())
         tempBlk_1 = tempBlk_1 + currBlk_1
         SoScreen.paste(tempBlk_1, score_1_top, score_1_left)
 
         currBlk_10 = Matrix(set_score(score_10))
-        tempBlk_10 = iScreen.clip(score_10_top, score_10_left, score_10_top + currBlk_10.get_dy(),
-                                 score_10_left + currBlk_10.get_dx())
+        tempBlk_10 = SiScreen.clip(score_10_top, score_10_left, score_10_top + currBlk_10.get_dy(),score_10_left + currBlk_10.get_dx())
         tempBlk_10 = tempBlk_10 + currBlk_10
         SoScreen.paste(tempBlk_10, score_10_top, score_10_left)
         draw_matrix(SoScreen);print()
