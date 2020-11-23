@@ -19,21 +19,10 @@ def draw_led(m):
     array = m.get_array()
     for y in range(m.get_dy()):
         for x in range(m.get_dx()):
-            #if array[y][x] == 0:
-              #  LMD.set_pixel(y, x, 0)
             if array[y][x] == 1:
                 LMD.set_pixel(x,y, 2)
-                
-            '''
-            elif array[y][x] == 2:
-                LMD.set_pixel(y, 19-x, 7)
-            elif array[y][x] == 3:
-                LMD.set_pixel(y, 19-x, 4)
-            '''
-            
-
-
-
+            elif array[y][x] == 0:
+                LMD.set_pixel(x,y,0)
 
 def draw_matrix(m):
     array = m.get_array()
@@ -263,13 +252,10 @@ ScoreScreen =[
 
 ]
 
-######################Fucking Print########################
-
-
 heart = 5
 G_time = 1
 score = 1
-
+LED_init()
 while (heart > 0):
 
     G_top = 11
@@ -277,7 +263,6 @@ while (heart > 0):
     Boss_top = 2
     Boss_left = 21
     key = 0
-
     iScreen = Matrix(ArrayScreen)
     oScreen = Matrix(iScreen)
     set_mon_num = random.randint(1, 3)
@@ -285,8 +270,6 @@ while (heart > 0):
     tempBlk = iScreen.clip(top, left, top + curr_mon.get_dy(), left + curr_mon.get_dx())
     tempBlk = tempBlk + curr_mon
     iScreen.paste(tempBlk, top, left)
-    
-    LED_init()
     draw_led(oScreen)
 
     if (score%10 != 0): #9마리 더 죽이면 보스전으로 이동함 (시작 스코어는 1)
@@ -297,7 +280,6 @@ while (heart > 0):
             G_tempBlk = iScreen.clip(G_top, G_left, G_top + GunBlk.get_dy(), G_left + GunBlk.get_dx())
             G_tempBlk = G_tempBlk + GunBlk
             oScreen.paste(G_tempBlk, G_top, G_left)
-
             draw_matrix(oScreen);
             draw_led(oScreen)
             print()
