@@ -18,8 +18,8 @@ def draw_matrix(m):
                 print("■ ", end='')
         print()
 
-def set_arrayBlk(num):
-    if num == 1:  # sissor
+def set_array_mon(set_mon_num):
+    if set_mon_num == 1:  # scissor
         mon_Blk = [[0, 0, 1, 0, 1, 0, 0, 0],
                    [0, 0, 1, 0, 1, 0, 0, 0],
                    [0, 0, 1, 0, 1, 0, 0, 0],
@@ -29,7 +29,7 @@ def set_arrayBlk(num):
                    [0, 0, 1, 0, 0, 0, 1, 0],
                    [0, 0, 0, 1, 1, 1, 0, 0]]
 
-    elif num == 2:  # rock
+    elif set_mon_num == 2:  # rock
         mon_Blk = [[0, 0, 0, 0, 0, 0, 0, 0],
                    [0, 0, 0, 0, 0, 0, 0, 0],
                    [0, 0, 0, 0, 0, 0, 0, 0],
@@ -39,7 +39,7 @@ def set_arrayBlk(num):
                    [0, 0, 1, 0, 0, 0, 1, 1],
                    [0, 0, 0, 1, 1, 1, 0, 0]]
 
-    elif num == 3:  # paper
+    elif set_mon_num == 3:  # paper
         mon_Blk = [[0, 0, 0, 1, 0, 1, 0, 0],
                    [0, 1, 0, 1, 0, 1, 0, 0],
                    [0, 1, 0, 1, 0, 1, 0, 1],
@@ -250,15 +250,15 @@ while (heart > 0):
 
     iScreen = Matrix(ArrayScreen)
     oScreen = Matrix(iScreen)
-    num = random.randint(1, 3)
-    currBlk = Matrix(set_arrayBlk(num))
-    tempBlk = iScreen.clip(top, left, top + currBlk.get_dy(), left + currBlk.get_dx())
-    tempBlk = tempBlk + currBlk
+    set_mon_num = random.randint(1, 3)
+    curr_mon = Matrix(set_array_mon(set_mon_num))
+    tempBlk = iScreen.clip(top, left, top + curr_mon.get_dy(), left + curr_mon.get_dx())
+    tempBlk = tempBlk + curr_mon
     iScreen.paste(tempBlk, top, left)
 
-    if (score%10 != 0):
+    if (score%10 != 0): #9마리 더 죽이면 보스전으로 이동함 (시작 스코어는 1)
         while (G_left >= 5):
-
+            curr_win = False
             GunBlk = Matrix(Gun)
             oScreen = Matrix(iScreen)
             G_tempBlk = iScreen.clip(G_top, G_left, G_top + GunBlk.get_dy(), G_left + GunBlk.get_dx())
@@ -268,7 +268,7 @@ while (heart > 0):
             draw_matrix(oScreen);
             print()
 
-            print('키를 누르세요: [ q (quit) / 왼쪽키 (Scissor) / 아래키 (Rock) / 오른쪽키 (Paper) ] \n잘못입력하면 목숨이 깎입니다.')
+            print('키를 누르세요: [ \'q\' (quit) / \'a\' (Scissor) / \'s\' (Rock) / \'d\' (Paper) ] \n')
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     running = False
@@ -276,59 +276,63 @@ while (heart > 0):
                     sys.exit()
                 if event.type == pg.KEYDOWN:
                     if event.key == ord('q'):
-                        key = 'q'
+                        key = 'quit'
 
-                    if event.key == pg.K_LEFT:
-                        key = 'a'
+                    if event.key == ord('a'):
+                        key = 'scissor'
 
-                    if event.key == pg.K_DOWN:
-                        key = 's'
+                    if event.key == ord('s'):
+                        key = 'rock'
 
-                    if event.key == pg.K_RIGHT:
-                        key = 'd'
+                    if event.key == ord('d'):
+                        key = 'paper'
 
-            if key == 'q':
+            if key == 'quit':
                 print('Game terminated...')
                 heart = 0
                 break
 
-            elif key == 'a':  # 가위
-                if (num == 3):
+            elif key == 'scissor':  # 가위
+                if (set_mon_num == 3):
                     print("이김")
+                    curr_win = True
                     score += 1
                     break
                 else:
-                    heart -= 1
+                    #heart -= 1
                     break
 
-            elif key == 's':  # 바위d
-                if (num == 1):
+            elif key == 'rock':  # 바위
+                if (set_mon_num == 1):
                     print("이김")
+                    curr_win = True
                     score += 1
                     break
                 else:
-                    heart -= 1
+                    #heart -= 1
                     break
 
-            elif key == 'd':  # 보
-                if (num == 2):
+            elif key == 'paper':  # 보
+                if (set_mon_num == 2):
                     print("이김")
+                    curr_win = True
                     score += 1
                     break
                 else:
-                    heart -= 1
+                    #heart -= 1
                     break
 
-            if (G_left == 5):
-                heart = 0
+            if (G_left == 5): #총알이 닿으면 피 1 깎임
+                heart -= 1 
                 break
             else:
-                G_left -= 1
-
+                G_left -= 1 #총알 움직임
+            if (curr_win): # 몬스터를 죽였으면 게임 속도 살짝 빠르게 조정함
+                G_time = 0.93 * G_time
             time.sleep(G_time)
 
     else :
-
+        G_time = 1 #다시 게임시간 간격 원래대로 조정
         while(True):
 
             BossBlk = Matrix(Boss)
@@ -341,7 +345,7 @@ while (heart > 0):
 
             Boss_pick = random.randint(1, 3)
 
-            print('키를 누르세요: [ q (quit) / 왼쪽키 (Scissor) / 아래키 (Rock) / 오른쪽키 (Paper) ] \n잘못입력하면 목숨이 깎입니다.')
+            print('키를 누르세요: [ \'q\' (quit) / \'a\' (Scissor) / \'s\' (Rock) / \'d\' (Paper) ] \n잘못내면 체력이 깎입니다.')
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     running = False
@@ -349,23 +353,23 @@ while (heart > 0):
                     sys.exit()
                 if event.type == pg.KEYDOWN:
                     if event.key == ord('q'):
-                        key = 'q'
+                        key = 'quit'
 
-                    if event.key == pg.K_LEFT:
-                        key = 'a'
+                    if event.key == ord('a'):
+                        key = 'scissor'
 
-                    if event.key == pg.K_DOWN:
-                        key = 's'
+                    if event.key == ord('s'):
+                        key = 'rock'
 
-                    if event.key == pg.K_RIGHT:
-                        key = 'd'
+                    if event.key == ord('d'):
+                        key = 'paper'
 
-            if key == 'q':
+            if key == 'quit':
                 print('Game terminated...')
                 heart = 0
                 break
 
-            elif key == 'a':  # 가위
+            elif key == 'scissor':  # 가위
                 if (Boss_pick == 3): #보
                     print("보스는 '보'를 냈습니다.")
                     print("이김")
@@ -381,7 +385,7 @@ while (heart > 0):
                         heart -= 1
 
 
-            elif key == 's':  # 바위d
+            elif key == 'rock':  # 바위d
                 if (Boss_pick == 1):
                     print("보스는 '가위'를 냈습니다.")
                     print("이김")
@@ -397,7 +401,7 @@ while (heart > 0):
                         heart -= 1
 
 
-            elif key == 'd':  # 보
+            elif key == 'paper':  # 보
                 if (Boss_pick == 2): #주먹
                     print("보스는 '보'를 냈습니다.")
                     print("이김")
@@ -418,9 +422,6 @@ while (heart > 0):
                 break
 
             time.sleep(10)
-
-    if (G_time > 0.2):
-        G_time -= 0.1
 
     print(heart)
     print(score)
@@ -448,12 +449,5 @@ while (heart > 0):
         SoScreen.paste(tempBlk_10, score_10_top, score_10_left)
         draw_matrix(SoScreen);
         print()
-
-
-
         print("게임 종료")
         break
-
-
-
-
