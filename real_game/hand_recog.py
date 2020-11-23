@@ -1,13 +1,15 @@
 import numpy as np
 import cv2 as cv
+from datetime import datetime, timedelta # 일정 시간동안 동작인식 함수를 작동시킴
+import collections  #collections.counter을 이용해 인식한 동작 수를 셈 
 
 def skinmask(img):
-    hsvim = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-    lower = np.array([0, 48, 80], dtype = "uint8")
-    upper = np.array([20, 255, 255], dtype = "uint8")
-    skinRegionHSV = cv.inRange(hsvim, lower, upper)
-    blurred = cv.blur(skinRegionHSV, (2,2))
-    ret, thresh = cv.threshold(blurred,0,255,cv.THRESH_BINARY)
+    hsvim = cv.cvtColor(img, cv.COLOR_BGR2HSV)  #(입력받는 B/G/R이미지를 hsv=색상/채도/명도 이미지로 변경)
+    lower = np.array([0, 48, 80], dtype = "uint8") #HSV 로 봤을 때 피부색의 최저치
+    upper = np.array([20, 255, 255], dtype = "uint8") #HSV 로 봤을 때 피부색의 최대치
+    skinRegionHSV = cv.inRange(hsvim, lower, upper) #lower와 upper값 사이로 피부색 영역 검출
+    blurred = cv.blur(skinRegionHSV, (2,2)) #피부색 영역을 블러처리함 
+    ret, thresh = cv.threshold(blurred,0,255,cv.THRESH_BINARY) # 피부색 이미지 2진수화(임계화)
     return thresh
 
 def getcnthull(mask_img):
@@ -23,8 +25,10 @@ def getdefects(contours):
 
 
 def rps():
+    ip_list=[]#5초간 인식한 동작들을 저장함(rck, ppr, scr)
     cap = cv.VideoCapture(0) # '0' for webcam
-    while cap.isOpened():
+    end_time = datetime.now() + timedelta(seconds=5) #5초간 입력을 받음 
+    while cap.isOpened() and datetime.now() < end_time:
         _, img = cap.read()
         try:
             mask_img = skinmask(img)
@@ -52,22 +56,28 @@ def rps():
             
             if cnt >=2 and cnt <5:
                 #print("Scissors")
-                cv.putText(img, str("Sciss"), (0, 50), cv.FONT_HERSHEY_SIMPLEX,1, (255, 0, 0) , 2, cv.LINE_AA)
-                return str("scissor")
+                cv.putText(img, str("scr"), (0, 50), cv.FONT_HERSHEY_SIMPLEX,1, (255, 0, 0) , 2, cv.LINE_AA)
+                ip_list.append('scr')
+                #return str("scissor")
             elif cnt>=5:
                 cv.putText(img, str("paper"), (0, 50), cv.FONT_HERSHEY_SIMPLEX,1, (255, 0, 0) , 2, cv.LINE_AA)
-                return str("paper")
+                ip_list.append('ppr')
+                #return str("paper")
             else:
                 cv.putText(img, str("Rck"), (0, 50), cv.FONT_HERSHEY_SIMPLEX,1, (255, 0, 0) , 2, cv.LINE_AA)
-                return str("wha?")
+                ip_list.appned('rck')
+                #return str("wha?")
             
             cv.imshow("img", img)
         except:
             pass
         if cv.waitKey(1) & 0xFF == ord('q'):
             break
+    print(collections.Counter(ip_list))
+
     cap.release()
     cv.destroyAllWindows()
 
 if __name__ == "__main__":
     rps()
+    
