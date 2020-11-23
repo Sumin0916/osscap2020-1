@@ -73,7 +73,7 @@ def set_array_mon(set_mon_num):
                    [0, 0, 0, 1, 1, 1, 0, 0]]
     return mon_Blk
 def prograss(array,score):
-    for i in range(22,22+score):
+    for i in range(21,21+score):
         array[3][i] = 1 ## 22부터 30까지
     if array[3][21+score] == 1:
         array[3][21+score] = 0
@@ -270,6 +270,7 @@ while (heart > 0):
     Boss_top = 2
     Boss_left = 21
     key = 0
+    prograss(ArrayScreen,score)
     iScreen = Matrix(ArrayScreen)
     oScreen = Matrix(iScreen)
     set_mon_num = random.randint(1, 3)
@@ -278,7 +279,6 @@ while (heart > 0):
     tempBlk = tempBlk + curr_mon
     iScreen.paste(tempBlk, top, left)
     draw_led(oScreen)
-    prograss(oScreen,score)
     if (score != 10): #9마리 더 죽이면 보스전으로 이동함 (시작 스코어는 1)
         while (G_left >= 5):
             curr_win = False
