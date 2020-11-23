@@ -1,10 +1,39 @@
 from matrix import *
+import LED_display as LMD
+import threading
 import time
 import random
 import pygame as pg
 
 pg.init()
 screen = pg.display.set_mode((1, 1))
+
+def LED_init():
+    thread=threading.Thread(target=LMD.main, args=())
+    thread.setDaemon(True)
+    thread.start()
+    return
+
+#setpixel param from 1: red,green,yellow,blue,pink,cyan,white,red..
+def draw_led(m):
+    array = m.get_array()
+    for y in range(m.get_dy()):
+        for x in range(m.get_dx()):
+            #if array[y][x] == 0:
+              #  LMD.set_pixel(y, x, 0)
+            if array[y][x] == 1:
+                LMD.set_pixel(x,y, 2)
+                
+            '''
+            elif array[y][x] == 2:
+                LMD.set_pixel(y, 19-x, 7)
+            elif array[y][x] == 3:
+                LMD.set_pixel(y, 19-x, 4)
+            '''
+            
+
+
+
 
 def draw_matrix(m):
     array = m.get_array()
@@ -17,6 +46,7 @@ def draw_matrix(m):
             else:
                 print("■ ", end='')
         print()
+
 
 def set_array_mon(set_mon_num):
     if set_mon_num == 1:  # scissor
@@ -255,6 +285,9 @@ while (heart > 0):
     tempBlk = iScreen.clip(top, left, top + curr_mon.get_dy(), left + curr_mon.get_dx())
     tempBlk = tempBlk + curr_mon
     iScreen.paste(tempBlk, top, left)
+    
+    LED_init()
+    draw_led(oScreen)
 
     if (score%10 != 0): #9마리 더 죽이면 보스전으로 이동함 (시작 스코어는 1)
         while (G_left >= 5):
@@ -266,6 +299,7 @@ while (heart > 0):
             oScreen.paste(G_tempBlk, G_top, G_left)
 
             draw_matrix(oScreen);
+            draw_led(oScreen)
             print()
 
             print('키를 누르세요: [ \'q\' (quit) / \'a\' (Scissor) / \'s\' (Rock) / \'d\' (Paper) ] \n')
