@@ -4,6 +4,7 @@ import threading
 import time
 import random
 import pygame as pg
+
 pg.init()
 screen = pg.display.set_mode((1, 1))
 
@@ -65,8 +66,16 @@ def set_array_mon(set_mon_num):
     return mon_Blk
 
 def prograss(array,score):
-    if (score <= 10):
-        array[3][19+score] = 1 ## 22부터 30까지
+    if (score <= 9):
+        array[3][20+score] = 1 ## 22부터 30까지
+def show_life(array,life):
+    count = 0
+    num_array = [1,3,5,7,9] #1, 3, 5, 7, 9
+    for i in range(num_array):
+        array[1][i] = 11
+        count += 1
+        if count >= life:
+            break
 iScreenDy = 14
 iScreenDx = 30
 iScreenDw = 1
@@ -194,8 +203,8 @@ Boss = [
 ]
 ArrayScreen = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 11, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 11, 11, 11, 1],
+    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 11, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 11, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -228,17 +237,17 @@ ScoreScreen =[
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
-heart = 1
+life = 5
 G_time = 1
-score = 1
+score = 0
 LED_init()
-while (heart > 0):
+while (life > 0):
     G_top = 11
     G_left = 25
     Boss_top = 2
     Boss_left = 21
     key = 0
-    prograss(ArrayScreen,score)
+    prograss(ArrayScreen,score);show_life(ArrayScreen,life)
     iScreen = Matrix(ArrayScreen)
     oScreen = Matrix(iScreen)
     set_mon_num = random.randint(1, 3)
@@ -246,14 +255,14 @@ while (heart > 0):
     tempBlk = iScreen.clip(top, left, top + curr_mon.get_dy(), left + curr_mon.get_dx());tempBlk = tempBlk + curr_mon
     iScreen.paste(tempBlk, top, left)
     draw_led(oScreen)
-    if (score != 10): #9마리 더 죽이면 보스전으로 이동함 (시작 스코어는 1)
+    if (score != 10): #10마리 죽이면 보스전으로 이동함 (시작 스코어는 0)
         while (G_left >= 5):
             GunBlk = Matrix(Gun)
             oScreen = Matrix(iScreen)
             G_tempBlk = iScreen.clip(G_top, G_left, G_top + GunBlk.get_dy(), G_left + GunBlk.get_dx())
             G_tempBlk = G_tempBlk + GunBlk
             oScreen.paste(G_tempBlk, G_top, G_left)
-            draw_matrix(oScreen);draw_led(oScreen);print()
+            draw_matrix(oScreen);print()
             print('키를 누르세요: [ \'q\' (quit) / \'a\' (Scissor) / \'s\' (Rock) / \'d\' (Paper) ] \n')
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -271,7 +280,7 @@ while (heart > 0):
                         key = 'paper'
             if key == 'quit':
                 print('Game terminated...')
-                heart = 0
+                life = 0
                 break
             elif key == 'scissor':  # 가위
                 if (set_mon_num == 3):
@@ -279,15 +288,11 @@ while (heart > 0):
                     G_time = 0.98*G_time
                     score += 1
                     break
-                else:
-                    break
             elif key == 'rock':  # 바위
                 if (set_mon_num == 1):
                     print("이김")
                     G_time = 0.98*G_time
                     score += 1
-                    break
-                else:
                     break
             elif key == 'paper':  # 보
                 if (set_mon_num == 2):
@@ -295,14 +300,11 @@ while (heart > 0):
                     G_time = 0.98*G_time
                     score += 1
                     break
-                else:
-                    break
             if (G_left == 5): #총알이 닿으면 피 1 깎임
-                heart -= 1
-                print('피격당했습니다.',heart)
+                life -= 1
+                print('피격당했습니다.',life)
                 break
-            else:
-                G_left -= 1 #총알 움직임
+            G_left -= 1 #총알 움직임
             time.sleep(G_time)
 #############################################BOSS###################################################
     else :
@@ -331,7 +333,7 @@ while (heart > 0):
                         key = 'paper'
             if key == 'quit':
                 print('Game terminated...')
-                heart = 0
+                life = 0
                 break
             elif key == 'scissor':  # 가위
                 if (Boss_pick == 3): #보
@@ -343,10 +345,10 @@ while (heart > 0):
                 else:
                     if(Boss_pick == 1):
                         print("보스는 '가위'를 냈습니다.")
-                        heart -= 1
+                        life -= 1
                     if (Boss_pick == 2):
                         print("보스는 '바위'를 냈습니다.")
-                        heart -= 1
+                        life -= 1
             elif key == 'rock':  # 바위d
                 if (Boss_pick == 1):
                     print("보스는 '가위'를 냈습니다.")
@@ -357,10 +359,10 @@ while (heart > 0):
                 else:
                     if(Boss_pick == 2):
                         print("보스는 '바위'를 냈습니다.")
-                        heart -= 1
+                        life -= 1
                     if (Boss_pick == 3):
                         print("보스는 '보'를 냈습니다.")
-                        heart -= 1
+                        life -= 1
             elif key == 'paper':  # 보
                 if (Boss_pick == 2): #주먹
                     print("보스는 '보'를 냈습니다.")
@@ -371,18 +373,18 @@ while (heart > 0):
                 else:
                     if(Boss_pick == 1):
                         print("보스는 '가위'를 냈습니다.")
-                        heart -= 1
+                        life -= 1
                     if (Boss_pick == 3):
                         print("보스는 '보'를 냈습니다.")
-                        heart -= 1
-            if(heart >0):
-                print(heart)
+                        life -= 1
+            if(life >0):
+                print(life)
             else:
                 break
             time.sleep(10)
-    print(heart)
+    print(life)
     print(score)
-    if (heart == 0):
+    if (life == 0):
         score_10 = score // 10
         score_1 = score % 10
         score_10_left = 6
