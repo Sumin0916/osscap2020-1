@@ -71,7 +71,7 @@ def prograss(array,score):
 def show_life(array,life):
     count = 0
     num_array = [1,3,5,7,9] #1, 3, 5, 7, 9
-    for i in range(num_array):
+    for i in num_array:
         array[1][i] = 11
         count += 1
         if count >= life:
