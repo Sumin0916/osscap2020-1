@@ -355,6 +355,367 @@ while (life > 0):
                     print("보스는 '가위'를 냈습니다.")
                     print("이김")
                     time.sleep(1)
+from matrix import *
+import LED_display as LMD
+import threading
+import time
+import random
+import pygame as pg
+
+pg.init()
+screen = pg.display.set_mode((1, 1))
+
+def LED_init():
+    thread=threading.Thread(target=LMD.main, args=())
+    thread.setDaemon(True)
+    thread.start()
+    return
+
+#setpixel param from 1: red,green,yellow,blue,pink,cyan,white,red..
+def draw_led(m):
+    array = m.get_array()
+    for y in range(m.get_dy()):
+        for x in range(m.get_dx()):
+            if 1 <= array[y][x] <= 10: ## 초록색 출력
+                LMD.set_pixel(x,y, 2)
+            elif array[y][x] == 0: ## 0이면 공백 출력
+                LMD.set_pixel(x,y,0)
+            elif 11 <= array[y][x] <= 20:  ## 빨간색 출력
+                LMD.set_pixel(x,y,1)
+            elif 21 <= array[y][x] <= 30:  ## 노란색 출력
+                LMD.set_pixel(x,y,3)
+            elif 31 <= array[y][x] <= 40:  ## cyan
+                LMD.set_pixel(x,y,7)
+def draw_matrix(m):
+    array = m.get_array()
+    for y in range(m.get_dy()):
+        for x in range(m.get_dx()):
+            if array[y][x] == 0:
+                print("□ ", end='')
+            else:
+                print("■ ", end='')
+        print()
+def set_array_mon(set_mon_num):
+    if set_mon_num == 1:  # scissor
+        mon_Blk = [[0, 0, 1, 0, 1, 0, 0, 0],
+                   [0, 0, 1, 0, 1, 0, 0, 0],
+                   [0, 0, 1, 0, 1, 0, 0, 0],
+                   [0, 0, 1, 1, 1, 1, 0, 0],
+                   [0, 0, 1, 0, 0, 0, 1, 0],
+                   [0, 1, 0, 0, 1, 0, 0, 1],#core: [5][4]
+                   [0, 0, 1, 0, 0, 0, 1, 0],
+                   [0, 0, 0, 1, 1, 1, 0, 0]]
+    elif set_mon_num == 2:  # rock
+        mon_Blk = [[0, 0, 0, 0, 0, 0, 0, 0],
+                   [0, 0, 0, 0, 0, 0, 0, 0],
+                   [0, 0, 0, 0, 0, 0, 0, 0],
+                   [0, 0, 1, 1, 1, 1, 1, 0],
+                   [0, 1, 1, 0, 0, 0, 1, 1],
+                   [0, 1, 0, 0, 1, 0, 0, 1],#core: [5][4]
+                   [0, 0, 1, 0, 0, 0, 1, 1],
+                   [0, 0, 0, 1, 1, 1, 0, 0]]
+    elif set_mon_num == 3:  # paper
+        mon_Blk = [[0, 0, 0, 1, 0, 1, 0, 0],
+                   [0, 1, 0, 1, 0, 1, 0, 0],
+                   [0, 1, 0, 1, 0, 1, 0, 1],
+                   [0, 1, 0, 1, 1, 1, 0, 1],
+                   [0, 0, 1, 0, 0, 0, 1, 0],
+                   [1, 0, 1, 0, 1, 0, 1, 1],#core: [5][4]
+                   [0, 1, 1, 0, 0, 0, 1, 0],
+                   [0, 0, 0, 1, 1, 1, 0, 0]]
+    return mon_Blk
+
+def prograss(array,score):
+    if (score <= 9):
+        array[3][20+score] = 1 ## 22부터 30까지
+def show_life(array,life):
+    count = 0
+    array[1][1] = 0;array[1][3] = 0;array[1][5] = 0;array[1][7] = 0;array[1][9] = 0;
+    num_array = [1,3,5,7,9] #1, 3, 5, 7, 9
+    for i in num_array:
+        array[1][i] = 11
+        count += 1
+        if count >= life:
+            break
+def show_hand(array,key):
+    array[7][9] = 0;array[9][9] = 0;array[7][8] = 0;array[8][9] = 0;array[10][8] = 0;array[10][9] = 0
+    if key == 'rock':
+        array[7][8] = 31;array[7][9] = 31;array[8][9] = 31
+    elif key == 'paper':
+        array[7][8] = 31;array[7][9] = 31;array[8][9] = 31;array[9][8] = 31;array[9][9] = 31
+    elif key == 'scissor':
+        array[7][9] = 31;array[9][9] = 31 # hand[8][8]
+    
+iScreenDy = 14;iScreenDx = 30;iScreenDw = 1;top = 6;left = 22
+#########SCORE###########
+def set_score (score):
+    if score == 0:
+        score_Blk = [
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 1, 1, 1, 0, 0, 0],
+                    [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 0, 1, 1, 1, 0, 0, 0]]
+    elif score == 1:
+        score_Blk = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 1, 0, 0, 0, 0],
+                    [0, 0, 0, 1, 1, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 1, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 1, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 1, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 1, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 1, 0, 0, 0, 0],
+                    [0, 0, 1, 1, 1, 1, 1, 0, 0]]
+    elif score == 2:
+        score_Blk = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 1, 1, 1, 0, 0, 0],
+                    [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 0, 0, 1, 1, 1, 0, 0],
+                    [0, 0, 0, 1, 1, 0, 0, 0, 0],
+                    [0, 0, 1, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 1, 1, 1, 1, 1, 1, 0]]
+    elif score == 3:
+        score_Blk = [[0, 0, 0, 1, 1, 1, 0, 0, 0],
+                     [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                     [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 1, 0, 0],
+                     [0, 0, 0, 0, 1, 1, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 1, 0, 0],
+                     [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                     [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                     [0, 0, 0, 1, 1, 1, 0, 0, 0]]
+    elif score == 4:
+        score_Blk = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 0, 0, 0],
+            [0, 0, 0, 1, 0, 1, 0, 0, 0],
+            [0, 0, 1, 0, 0, 1, 0, 0, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0, 0, 0]]
+    elif score == 5:
+        score_Blk = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 1, 1, 1, 1, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 1, 1, 1, 1, 0, 0, 0]]
+    elif score == 6:
+        score_Blk = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
+           [0, 0, 0, 0, 0, 1, 0, 0, 0],
+           [0, 0, 0, 0, 1, 0, 0, 0, 0],
+           [0, 0, 0, 1, 0, 0, 0, 0, 0],
+           [0, 0, 1, 1, 1, 1, 0, 0, 0],
+           [0, 0, 1, 0, 0, 0, 1, 0, 0],
+           [0, 0, 1, 0, 0, 0, 1, 0, 0],
+           [0, 0, 1, 0, 0, 0, 1, 0, 0],
+           [0, 0, 0, 1, 1, 1, 0, 0, 0]]
+    elif score == 7:
+        score_Blk = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 1, 1, 1, 1, 1, 0, 0],
+             [0, 0, 1, 0, 0, 0, 1, 0, 0],
+             [0, 0, 1, 0, 0, 0, 1, 0, 0],
+             [0, 0, 0, 0, 0, 0, 1, 0, 0],
+             [0, 0, 0, 0, 0, 1, 0, 0, 0],
+             [0, 0, 0, 0, 0, 1, 0, 0, 0],
+             [0, 0, 0, 0, 0, 1, 0, 0, 0],
+             [0, 0, 0, 0, 0, 1, 0, 0, 0]]
+    elif score == 8:
+        score_Blk = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 1, 1, 1, 0, 0, 0],
+             [0, 0, 1, 0, 0, 0, 1, 0, 0],
+             [0, 0, 1, 0, 0, 0, 1, 0, 0],
+             [0, 0, 0, 1, 1, 1, 0, 0, 0],
+             [0, 0, 1, 0, 0, 0, 1, 0, 0],
+             [0, 0, 1, 0, 0, 0, 1, 0, 0],
+             [0, 0, 1, 0, 0, 0, 1, 0, 0],
+             [0, 0, 0, 1, 1, 1, 0, 0, 0]]
+    elif score == 9:
+        score_Blk = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 1, 1, 1, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 1, 0, 0],
+            [0, 0, 1, 0, 0, 0, 1, 0, 0],
+            [0, 0, 1, 0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 1, 1, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 1, 1, 0, 0, 0]]
+    return score_Blk
+Gun = [[11, 11]]
+Boss = [
+    [0,0,0,0,1,1,1,0,0,0,0],
+    [0,0,0,0,1,0,1,0,0,0,0],
+    [0,0,0,0,1,0,1,0,0,0,0],
+    [0,0,0,0,1,0,1,0,0,0,0],
+    [0,0,0,0,1,0,1,0,0,0,0],
+    [1,1,1,1,1,0,1,1,1,1,1],
+    [1,0,1,0,1,0,1,0,1,0,1],
+    [1,0,1,0,1,0,1,0,1,0,1],
+    [1,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,1,1,1,0,0,0,1],
+    [1,0,0,0,1,1,1,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,1],
+    [1,1,1,1,1,1,1,1,1,1,1],
+]
+ArrayScreen = [
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 0, 21, 0, 21, 0, 21, 0, 21, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 11, 1],
+    [1, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 11, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 1],
+    [1, 0, 0, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 1],
+    [1, 0, 0, 31, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 31, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 31, 31, 31, 31, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 31, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 31, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], #총 Y축
+    [1, 0, 0, 0, 31, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 31, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 31, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+ScoreScreen =[
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 0, 0, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+life = 5;G_time = 1;score = 0;temp_key = 0
+LED_init()
+while (life > 0):
+    G_top = 11;G_left = 25;Boss_top = 2;Boss_left = 21;key = 0
+    prograss(ArrayScreen,score);show_life(ArrayScreen,life);show_hand(ArrayScreen,temp_key)
+    iScreen = Matrix(ArrayScreen);oScreen = Matrix(iScreen)
+    set_mon_num = random.randint(1, 3)
+    curr_mon = Matrix(set_array_mon(set_mon_num))
+    tempBlk = iScreen.clip(top, left, top + curr_mon.get_dy(), left + curr_mon.get_dx());tempBlk = tempBlk + curr_mon
+    iScreen.paste(tempBlk, top, left)
+    if (score != 10): #10마리 죽이면 보스전으로 이동함 (시작 스코어는 0)
+        while (G_left >= 5):
+            GunBlk = Matrix(Gun)
+            oScreen = Matrix(iScreen)
+            G_tempBlk = iScreen.clip(G_top, G_left, G_top + GunBlk.get_dy(), G_left + GunBlk.get_dx())
+            G_tempBlk = G_tempBlk + GunBlk
+            oScreen.paste(G_tempBlk, G_top, G_left)
+            draw_matrix(oScreen);print()
+            draw_led(oScreen)
+            print('키를 누르세요: [ \'q\' (quit) / \'a\' (Scissor) / \'s\' (Rock) / \'d\' (Paper) ] \n')
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    running = False
+                    pg.quit()
+                    sys.exit()
+                if event.type == pg.KEYDOWN:
+                    if event.key == ord('q'):
+                        key = 'quit'
+                    if event.key == ord('a'):
+                        key = 'scissor'
+                        temp_key = 'scissor'
+                    if event.key == ord('s'):
+                        key = 'rock'
+                        temp_key = 'rock'
+                    if event.key == ord('d'):
+                        key = 'paper'
+                        temp_key = 'paper'
+            if key == 'quit':
+                print('Game terminated...')
+                life = 0
+                break
+            elif key == 'scissor':  # 가위
+                if (set_mon_num == 3):
+                    print("이김")
+                    G_time = 0.9*G_time
+                    score += 1
+                    break
+            elif key == 'rock':  # 바위
+                if (set_mon_num == 1):
+                    print("이김")
+                    G_time = 0.9*G_time
+                    score += 1
+                    break
+            elif key == 'paper':  # 보
+                if (set_mon_num == 2):
+                    print("이김")
+                    G_time = 0.9*G_time
+                    score += 1
+                    break
+            if (G_left == 5): #총알이 닿으면 피 1 깎임
+                life -= 1
+                print('피격당했습니다.',life)
+                break
+            G_left -= 1 #총알 움직임
+            time.sleep(G_time)
+#############################################BOSS###################################################
+    else :
+        G_time = 1 #다시 게임시간 간격 원래대로 조정
+        while(True):
+            BossBlk = Matrix(Boss)
+            Boss_tempBlk = iScreen.clip(Boss_top, Boss_left, Boss_top + BossBlk.get_dy(), Boss_left + BossBlk.get_dx())
+            Boss_tempBlk = Boss_tempBlk + BossBlk
+            oScreen.paste(Boss_tempBlk, Boss_top, Boss_left)
+            draw_matrix(oScreen);print()
+            Boss_pick = random.randint(1, 3)
+            print('키를 누르세요: [ \'q\' (quit) / \'a\' (Scissor) / \'s\' (Rock) / \'d\' (Paper) ] \n잘못내면 체력이 깎입니다.')
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    running = False
+                    pg.quit()
+                    sys.exit()
+                if event.type == pg.KEYDOWN:
+                    if event.key == ord('q'):
+                        key = 'quit'
+                    if event.key == ord('a'):
+                        key = 'scissor'
+                    if event.key == ord('s'):
+                        key = 'rock'
+                    if event.key == ord('d'):
+                        key = 'paper'
+            if key == 'quit':
+                print('Game terminated...')
+                life = 0
+                break
+            elif key == 'scissor':  # 가위
+                if (Boss_pick == 3): #보
+                    print("보스는 '보'를 냈습니다.")
+                    print("이김")
+                    time.sleep(1)
+                    score += 1
+                    break
+                else:
+                    if(Boss_pick == 1):
+                        print("보스는 '가위'를 냈습니다.")
+                        life -= 1
+                    if (Boss_pick == 2):
+                        print("보스는 '바위'를 냈습니다.")
+                        life -= 1
+            elif key == 'rock':  # 바위d
+                if (Boss_pick == 1):
+                    print("보스는 '가위'를 냈습니다.")
+                    print("이김")
+                    time.sleep(1)
                     score += 1
                     break
                 else:
@@ -383,14 +744,14 @@ while (life > 0):
             else:
                 break
             time.sleep(10)
-    print(life)
-    print(score)
+    print('life',life)
+    print('score',score)
     if (life <= 0):
         score_10 = score // 10
         score_1 = score % 10
-        score_10_left = 6
+        score_10_left = 7
         score_10_top = 4
-        score_1_left = 17
+        score_1_left = 16
         score_1_top = 4
         SiScreen = Matrix(ScoreScreen)
         SoScreen = Matrix(SiScreen)
