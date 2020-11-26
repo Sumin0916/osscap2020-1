@@ -88,7 +88,20 @@ def show_hand(array,key):
         array[7][8] = 31;array[7][9] = 31;array[8][9] = 31;array[9][8] = 31;array[9][9] = 31
     elif key == 'scissor':
         array[7][9] = 31;array[9][9] = 31 # hand[8][8]
-    
+def hit_react(array):
+    for _ in range(3):
+        array[4][5] = 0;array[4][5] = 0;array[5][3] = 0;array[5][6] = 0;array[6][3] = 0;array[6][6] = 0;array[7][4] = 0;array[7][5] = 0;array[14][2] = 0;array[14][6] = 0
+        array[8][3] = 0;array[8][4] = 0;array[8][5] = 0;array[8][6] = 0;array[8][7] = 0;array[8][8] = 0;array[9][2] = 0;array[9][4] = 0;array[9][5] = 0
+        array[10][2] = 0;array[10][4] = 0;array[10][5] = 0;array[11][4] = 0;array[11][5] = 0;array[12][4] = 0;array[12][6] = 0;array[13][3] = 0;array[13][6] = 0
+        iScreen = Matrix(array);oScreen = Matrix(iScreen)
+        draw_led(oScreen)
+        time.sleep(0.2)
+        array[4][5] = 31;array[4][5] = 31;array[5][3] = 31;array[5][6] = 31;array[6][3] = 31;array[6][6] = 31;array[7][4] = 31;array[7][5] = 31;array[14][2] = 31;array[14][6] = 31
+        array[8][3] = 31;array[8][4] = 31;array[8][5] = 31;array[8][6] = 31;array[8][7] = 31;array[8][8] = 31;array[9][2] = 31;array[9][4] = 31;array[9][5] = 31
+        array[10][2] = 31;array[10][4] = 31;array[10][5] = 31;array[11][4] = 31;array[11][5] = 31;array[12][4] = 31;array[12][6] = 31;array[13][3] = 31;array[13][6] = 31
+        iScreen = Matrix(array);oScreen = Matrix(iScreen)
+        draw_led(oScreen)
+        time.sleep(0.2) # 31
 iScreenDy = 14;iScreenDx = 30;iScreenDw = 1;top = 6;left = 22
 #########SCORE###########
 def set_score (score):
@@ -195,6 +208,7 @@ def set_score (score):
             [0, 0, 0, 1, 1, 1, 0, 0, 0]]
     return score_Blk
 Gun = [[11, 11]]
+Boss_gun = [[11,11],[11,11]]
 Boss = [
     [0,0,0,0,1,1,1,0,0,0,0],
     [0,0,0,0,1,0,1,0,0,0,0],
@@ -307,6 +321,7 @@ while (life > 0):
                     break
             if (G_left == 5): #총알이 닿으면 피 1 깎임
                 life -= 1
+                hit_react(ArrayScreen)
                 print('피격당했습니다.',life)
                 break
             G_left -= 1 #총알 움직임
