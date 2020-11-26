@@ -2,7 +2,6 @@ import numpy as np
 import math
 import time
 import cv2 as cv
-import imutils
 from datetime import datetime, timedelta # 일정 시간동안 동작인식 함수를 작동시킴
 
 
