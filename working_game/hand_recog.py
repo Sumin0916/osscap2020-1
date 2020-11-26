@@ -105,7 +105,6 @@ def rps():
                 cv.putText(frame,'reposition',(10,50), font, 2, (0,0,255), 3, cv.LINE_AA)
                 
         #show the windows
-            print("dsd")
             cv.imshow('mask',mask_frame)
             cv.imshow('frame',frame)
         
