@@ -1,4 +1,4 @@
-rom matrix import *
+from matrix import *
 import LED_display as LMD
 import threading
 import time
