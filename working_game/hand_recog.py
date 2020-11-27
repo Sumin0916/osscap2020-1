@@ -36,6 +36,8 @@ def getHullnDefects(cnt,approx):
 
 def rps():
     cap = cv.VideoCapture(0) # '0' for webcam
+    cap.set(cv.CAP_PROP_FRAME_WIDTH,960) 
+    cap.set(cv.CAP_PROP_FRAME_HEIGHT,640)  
     end_time = datetime.now() + timedelta(seconds=110) #10초간 입력을 받음 
     while (1) and datetime.now() < end_time:
         try:
