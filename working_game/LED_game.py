@@ -109,22 +109,22 @@ def die_mon(ArrayScreen):
                 [0, 0, 0, 0, 0, 0, 0, 0]],
                 ##
                 [[0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 1, 0, 0, 0, 0],
                 [0, 1, 0, 0, 0, 1, 1, 0],
                 [0, 0, 1, 1, 1, 0, 0, 0],
                 [0, 0, 0, 1, 1, 0, 1, 0],
                 [0, 0, 1, 0, 0, 1, 0, 0],
-                [0, 1, 0, 0, 0, 1, 0, 0],
+                [0, 1, 0, 1, 0, 1, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0]],
                 ##
-                [[0, 0, 0, 0, 0, 0, 0, 0],
+                [[0, 0, 0, 1, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 1],
                 [1, 1, 0, 0, 0, 1, 1, 0],
                 [0, 0, 1, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 1, 0, 0, 1, 0, 0],
                 [0, 1, 0, 0, 0, 1, 0, 0],
-                [1, 0, 0, 0, 0, 0, 1, 0]],
+                [1, 0, 0, 0, 1, 0, 1, 0]],
                 ##
                 [[0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 1],
@@ -181,7 +181,7 @@ def show_hand(array,key):
         array[7][8] = 31;array[7][9] = 31;array[8][9] = 31;array[9][8] = 31;array[9][9] = 31
     elif key == 'scissor':
         array[7][9] = 31;array[9][9] = 31
-def hit_react(array):
+def hero_hit_react(array):
     for _ in range(3):
         array[4][4] = 0;array[4][5] = 0;array[5][3] = 0;array[5][6] = 0;array[6][3] = 0;array[6][6] = 0;array[7][4] = 0;array[7][5] = 0;array[14][2] = 0;array[14][6] = 0
         array[8][3] = 0;array[8][4] = 0;array[8][5] = 0;array[8][6] = 0;array[8][7] = 0;array[8][8] = 0;array[9][2] = 0;array[9][4] = 0;array[9][5] = 0
@@ -196,6 +196,33 @@ def hit_react(array):
         iScreen = Matrix(array);oScreen = Matrix(iScreen)
         draw_led(oScreen)
         time.sleep(0.2) # 31
+def Boss_hit_react(array,Boss_array):
+    Boss_hit_array = [[0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0]]
+    for _ in range(3):
+        effect = Matrix(Boss_hit_array)
+        iScreen = Matrix(ArrayScreen);oScreen = Matrix(iScreen)
+        tempBlk = iScreen.clip(8, 21, 8 + effect.get_dy(), 21 + effect.get_dx());tempBlk = tempBlk + effect
+        iScreen.paste(tempBlk, 8, 21)
+        draw_led(oScreen)
+        time.sleep(0.2)
+        effect = Matrix(Boss_array)
+        iScreen = Matrix(ArrayScreen);oScreen = Matrix(iScreen)
+        tempBlk = iScreen.clip(8, 21, 8 + effect.get_dy(), 21 + effect.get_dx());tempBlk = tempBlk + effect
+        iScreen.paste(tempBlk, 8, 21)
+        draw_led(oScreen)
+        time.sleep(0.2)
 iScreenDy = 14;iScreenDx = 30;iScreenDw = 1;top = 6;left = 22
 def set_score (score):
     if score == 0:
@@ -308,19 +335,32 @@ Boss = [[0,11,0,0,0,0,0,0,0,11,0],
         [0,0,1,1,0,0,0,1,1,0,0],
         [0,0,0,0,0,0,0,1,1,0,0],
         [0,0,0,0,0,0,1,1,0,0,0],
-        [0,1,0,0,0,1,1,0,1,1,0],
-        [1,0,1,0,1,1,0,1,0,0,1],
-        [0,0,1,0,1,1,0,0,0,1,0],
-        [0,1,0,0,0,0,0,0,1,0,0],
+        [0,0,0,0,0,1,1,0,0,0,0],
         [0,0,0,0,1,1,0,0,0,0,0],
-        [0,1,0,0,1,1,0,0,1,0,0],
-]
+        [0,0,0,0,1,1,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,1,1,0,0,0,0,0],
+        [0,0,0,0,1,1,0,0,0,0,0]]
+
+thinking_Boss = [[0,11,0,0,0,0,0,0,0,11,0],
+                [0,11,11,0,0,0,0,0,11,11,0],
+                [0,11,11,1,1,1,1,1,11,11,0],
+                [0,0,1,1,1,1,1,1,1,0,0],
+                [0,0,1,1,0,0,0,1,1,0,0],
+                [0,0,0,0,0,0,0,1,1,0,0],
+                [0,0,0,0,0,0,1,1,0,0,0],
+                [0,1,0,0,0,1,1,0,1,1,0],
+                [1,0,1,0,1,1,0,1,0,0,1],
+                [0,0,1,0,1,1,0,0,0,1,0],
+                [0,1,0,0,0,0,0,0,1,0,0],
+                [0,0,0,0,1,1,0,0,0,0,0],
+                [0,1,0,0,1,1,0,0,1,0,0]]
 ArrayScreen = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 21, 0, 21, 0, 21, 0, 21, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 11, 1], #1,19/29/30
-    [1, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 11, 1],#1,19/29/30
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 1],#1,19/29
-    [1, 0, 0, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 1], #4,19~30
+    [1, 0, 21, 0, 21, 0, 21, 0, 21, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 11, 1], 
+    [1, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 11, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 1],
+    [1, 0, 0, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 1],
     [1, 0, 0, 31, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 0, 31, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -417,7 +457,7 @@ while (life > 0):
                     break
             if (G_left == 5): #총알이 닿으면 피 1 깎임
                 life -= 1
-                hit_react(ArrayScreen)
+                hero_hit_react(ArrayScreen)
                 set_mon_num = random.randint(1, 3)
                 curr_mon = Matrix(set_array_mon(set_mon_num))
                 tempBlk = iScreen.clip(top, left, top + curr_mon.get_dy(), left + curr_mon.get_dx());tempBlk = tempBlk + curr_mon
@@ -446,13 +486,20 @@ while (life > 0):
         while(True):
             show_life(ArrayScreen,life);show_hand(ArrayScreen,temp_key)
             iScreen = Matrix(ArrayScreen);oScreen = Matrix(iScreen)
-            BossBlk = Matrix(Boss)
+            BossBlk = Matrix(thinking_Boss)
             Boss_tempBlk = iScreen.clip(Boss_top, Boss_left, Boss_top + BossBlk.get_dy(), Boss_left + BossBlk.get_dx())
             Boss_tempBlk = Boss_tempBlk + BossBlk
             oScreen.paste(Boss_tempBlk, Boss_top, Boss_left)
             show_boss_life(oScreen,Boss_life)
             draw_led(oScreen)
             Boss_pick = random.randint(1, 3)
+            time.sleep(2)
+            BossBlk = Matrix(Boss)
+            Boss_tempBlk = iScreen.clip(Boss_top, Boss_left, Boss_top + BossBlk.get_dy(), Boss_left + BossBlk.get_dx())
+            Boss_tempBlk = Boss_tempBlk + BossBlk
+            oScreen.paste(Boss_tempBlk, Boss_top, Boss_left)
+            show_boss_life(oScreen,Boss_life)
+            draw_led(oScreen)
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     pg.quit()
@@ -474,35 +521,40 @@ while (life > 0):
                 break
             elif key == 'scissor':
                 if (Boss_pick == 3):
-                    #보스 피해입은 효과 구현
+                    Boss_hit_react(ArrayScreen,Boss)
                     Boss_life -= 1
                     score += 1
                 else:
+                    hero_hit_react(ArrayScreen)
                     life -= 1
             elif key == 'rock':
                 if (Boss_pick == 1):
-                    #보스 피해입은 효과 구현
+                    Boss_hit_react(ArrayScreen,Boss)
                     Boss_life -= 1
                     score += 1
                 else:
+                    hero_hit_react(ArrayScreen)
                     life -= 1
             elif key == 'paper':
                 if (Boss_pick == 2):
-                    #보스 피해입은 효과 구현
+                    Boss_hit_react(ArrayScreen,Boss)
                     Boss_life -= 1
                     score += 1
                 else:
+                    hero_hit_react(ArrayScreen)
                     life -= 1
             if (Boss_life == 1):
                 for i in range(13):
                     for j in range(11):
                         if (Boss[i][j] >= 0):
                             Boss[i][j] = 11
+                            thinking_Boss[i][j] = 11
             elif (Boss_life == 3):
                 for i in range(13):
                     for j in range(11):
                         if (Boss[i][j] >= 0):
                             Boss[i][j] = 21
+                            thinking_Boss[i][j] = 21
             if (life <= 0):
                 end_print(0)
                 time.sleep(3)
@@ -512,7 +564,6 @@ while (life > 0):
                 end_print(1)
                 time.sleep(3)
                 break
-            time.sleep(10)
     if (life <= 0):
         score += life * 3
         score_10 = score // 10;score_1 = score % 10
