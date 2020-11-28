@@ -57,14 +57,103 @@ def set_array_mon(set_mon_num):
                    [1, 0, 1, 0, 1, 0, 1, 1],#core: [5][4]
                    [0, 1, 1, 0, 0, 0, 1, 0],
                    [0, 0, 0, 1, 1, 1, 0, 0]]
+    else:
+        mon_Blk = [[0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0]]
     return mon_Blk
-
+def die_mon(ArrayScreen):
+    effect_list = [[[0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0]],
+                ##
+                [[0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 1, 1, 0, 0, 0],
+                [0, 0, 0, 1, 1, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0]],
+                ##
+                [[0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 1, 0, 0],
+                [0, 0, 1, 1, 1, 0, 0, 0],
+                [0, 0, 0, 1, 1, 0, 0, 0],
+                [0, 0, 1, 0, 0, 1, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0]],
+                ##
+                [[0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 1, 0, 0, 0, 1, 1, 0],
+                [0, 0, 1, 1, 1, 0, 0, 0],
+                [0, 0, 0, 1, 1, 0, 1, 0],
+                [0, 0, 1, 0, 0, 1, 0, 0],
+                [0, 1, 0, 0, 0, 1, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0]],
+                ##
+                [[0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 1],
+                [1, 1, 0, 0, 0, 1, 1, 0],
+                [0, 0, 1, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 1, 0, 0, 1, 0, 0],
+                [0, 1, 0, 0, 0, 1, 0, 0],
+                [1, 0, 0, 0, 0, 0, 1, 0]],
+                ##
+                [[0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 1],
+                [1, 1, 0, 0, 0, 0, 1, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 1, 0, 0, 0, 1, 0, 0],
+                [1, 0, 0, 0, 0, 0, 1, 0]],
+                ##
+                [[0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 1],
+                [1, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [1, 0, 0, 0, 0, 0, 1, 0]],
+                ##
+                [[0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0]]]
+    for i in range(8):
+        effect = Matrix(effect_list[i])
+        iScreen = Matrix(ArrayScreen)
+        tempBlk = iScreen.clip(6, 22, 6 + effect.get_dy(), 22 + effect.get_dx());tempBlk = tempBlk + effect
+        iScreen.paste(tempBlk, 6, 22)
+        oScreen = Matrix(iScreen)            
+        draw_led(oScreen)
+        time.sleep(0.2)
 def prograss(array,score):
     if (score <= 9):
-        array[3][20+score] = 1 ## 22부터 30까지
+        array[3][20+score] = 1
+        
 def show_life(array,life):
     count = 0
-    array[1][1] = 0;array[1][3] = 0;array[1][5] = 0;array[1][7] = 0;array[1][9] = 0;
+    array[1][1] = 0;array[1][3] = 0;array[1][5] = 0;array[1][7] = 0;array[1][9] = 0
     num_array = [1,3,5,7,9] #1, 3, 5, 7, 9
     for i in num_array:
         array[1][i] = 11
@@ -78,13 +167,13 @@ def show_hand(array,key):
     elif key == 'paper':
         array[7][8] = 31;array[7][9] = 31;array[8][9] = 31;array[9][8] = 31;array[9][9] = 31
     elif key == 'scissor':
-        array[7][9] = 31;array[9][9] = 31 # hand[8][8]
+        array[7][9] = 31;array[9][9] = 31
 def hit_react(array):
     for _ in range(3):
         array[4][4] = 0;array[4][5] = 0;array[5][3] = 0;array[5][6] = 0;array[6][3] = 0;array[6][6] = 0;array[7][4] = 0;array[7][5] = 0;array[14][2] = 0;array[14][6] = 0
         array[8][3] = 0;array[8][4] = 0;array[8][5] = 0;array[8][6] = 0;array[8][7] = 0;array[8][8] = 0;array[9][2] = 0;array[9][4] = 0;array[9][5] = 0
         array[10][2] = 0;array[10][4] = 0;array[10][5] = 0;array[11][4] = 0;array[11][5] = 0;array[12][4] = 0;array[12][6] = 0;array[13][3] = 0;array[13][6] = 0
-        array[8][9] = 0;array[7][8] = 0;array[7][9] = 0;array[9][8] = 0;array[9][9] = 0;
+        array[8][9] = 0;array[7][8] = 0;array[7][9] = 0;array[9][8] = 0;array[9][9] = 0
         iScreen = Matrix(array);oScreen = Matrix(iScreen)
         draw_led(oScreen)
         time.sleep(0.2)
@@ -95,7 +184,6 @@ def hit_react(array):
         draw_led(oScreen)
         time.sleep(0.2) # 31
 iScreenDy = 14;iScreenDx = 30;iScreenDw = 1;top = 6;left = 22
-#########SCORE###########
 def set_score (score):
     if score == 0:
         score_Blk = [
@@ -272,7 +360,6 @@ while (life > 0):
             draw_led(oScreen)
             for event in pg.event.get():
                 if event.type == pg.QUIT:
-                    running = False
                     pg.quit()
                     sys.exit()
                 if event.type == pg.KEYDOWN:
@@ -294,16 +381,28 @@ while (life > 0):
                 if (set_mon_num == 3):
                     G_time = 0.8*G_time
                     score += 1
+                    curr_mon = Matrix(set_array_mon(4))
+                    tempBlk = iScreen.clip(top, left, top + curr_mon.get_dy(), left + curr_mon.get_dx());tempBlk = tempBlk + curr_mon
+                    iScreen.paste(tempBlk, top, left)
+                    die_mon(ArrayScreen)
                     break
             elif key == 'rock':  # 바위
                 if (set_mon_num == 1):
                     G_time = 0.8*G_time
                     score += 1
+                    curr_mon = Matrix(set_array_mon(4))
+                    tempBlk = iScreen.clip(top, left, top + curr_mon.get_dy(), left + curr_mon.get_dx());tempBlk = tempBlk + curr_mon
+                    iScreen.paste(tempBlk, top, left)
+                    die_mon(ArrayScreen)
                     break
             elif key == 'paper':  # 보
                 if (set_mon_num == 2):
                     G_time = 0.8*G_time
                     score += 1
+                    curr_mon = Matrix(set_array_mon(4))
+                    tempBlk = iScreen.clip(top, left, top + curr_mon.get_dy(), left + curr_mon.get_dx());tempBlk = tempBlk + curr_mon
+                    iScreen.paste(tempBlk, top, left)
+                    die_mon(ArrayScreen)
                     break
             if (G_left == 5): #총알이 닿으면 피 1 깎임
                 life -= 1
@@ -326,7 +425,6 @@ while (life > 0):
             Boss_pick = random.randint(1, 3)
             for event in pg.event.get():
                 if event.type == pg.QUIT:
-                    running = False
                     pg.quit()
                     sys.exit()
                 if event.type == pg.KEYDOWN:
@@ -375,12 +473,9 @@ while (life > 0):
                 break
             time.sleep(10)
     if (life <= 0):
-        score_10 = score // 10
-        score_1 = score % 10
-        score_10_left = 8
-        score_10_top = 4
-        score_1_left = 15
-        score_1_top = 4
+        score_10 = score // 10;score_1 = score % 10
+        score_10_left = 8;score_10_top = 4
+        score_1_left = 15;score_1_top = 4
         SiScreen = Matrix(ScoreScreen)
         SoScreen = Matrix(SiScreen)
         currBlk_1 = Matrix(set_score(score_1))
@@ -390,6 +485,6 @@ while (life > 0):
         currBlk_10 = Matrix(set_score(score_10))
         tempBlk_10 = SiScreen.clip(score_10_top, score_10_left, score_10_top + currBlk_10.get_dy(),score_10_left + currBlk_10.get_dx())
         tempBlk_10 = tempBlk_10 + currBlk_10
-        SoScreen.paste(tempBlk_10, score_10   _top, score_10_left)
+        SoScreen.paste(tempBlk_10, score_10_top, score_10_left)
         draw_led(SoScreen)
         break
