@@ -13,8 +13,21 @@ def LED_init():
     thread.setDaemon(True)
     thread.start()
     return
-
+def end_print(num):
+    pass
+    # if num == 1: 승리시 출력할 내용
+    # elif num == 0 : 패배시 출력할 내용
 #setpixel param from 1: red,green,yellow,blue,pink,cyan,white,red..
+def show_boss_life(oScreen,life):
+    Boss_life_array = [[21,21,21,21,21,21,21],[21,0,0,0,0,0,21],[21,21,21,21,21,21,21]]
+    life -= 1
+    for i in range(5):
+        if (i <= life):
+            Boss_life_array[1][1+i] = 11
+    Boss_life = Matrix(Boss_life_array)
+    Boss_tempBlk = iScreen.clip(8, 22, 8 + Boss_life.get_dy(), 22 + Boss_life.get_dx())
+    Boss_tempBlk = Boss_tempBlk + Boss_life
+    oScreen.paste(Boss_tempBlk, 8, 22)
 def draw_led(m):
     array = m.get_array()
     for y in range(m.get_dy()):
@@ -150,7 +163,7 @@ def die_mon(ArrayScreen):
 def prograss(array,score):
     if (score <= 9):
         array[3][20+score] = 1
-        
+
 def show_life(array,life):
     count = 0
     array[1][1] = 0;array[1][3] = 0;array[1][5] = 0;array[1][7] = 0;array[1][9] = 0
@@ -288,28 +301,26 @@ def set_score (score):
             [0, 0, 0, 1, 1, 1, 0, 0, 0]]
     return score_Blk
 Gun = [[11, 11]]
-Boss_gun = [[11,11],[11,11]]
-Boss = [
-    [0,0,0,0,1,1,1,0,0,0,0],
-    [0,0,0,0,1,0,1,0,0,0,0],
-    [0,0,0,0,1,0,1,0,0,0,0],
-    [0,0,0,0,1,0,1,0,0,0,0],
-    [0,0,0,0,1,0,1,0,0,0,0],
-    [1,1,1,1,1,0,1,1,1,1,1],
-    [1,0,1,0,1,0,1,0,1,0,1],
-    [1,0,1,0,1,0,1,0,1,0,1],
-    [1,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,1,1,1,0,0,0,1],
-    [1,0,0,0,1,1,1,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,1],
-    [1,1,1,1,1,1,1,1,1,1,1],
+Boss = [[0,11,0,0,0,0,0,0,0,11,0],
+        [0,11,11,0,0,0,0,0,11,11,0],
+        [0,11,11,1,1,1,1,1,11,11,0],
+        [0,0,1,1,1,1,1,1,1,0,0],
+        [0,0,1,1,0,0,0,1,1,0,0],
+        [0,0,0,0,0,0,0,1,1,0,0],
+        [0,0,0,0,0,0,1,1,0,0,0],
+        [0,1,0,0,0,1,1,0,1,1,0],
+        [1,0,1,0,1,1,0,1,0,0,1],
+        [0,0,1,0,1,1,0,0,0,1,0],
+        [0,1,0,0,0,0,0,0,1,0,0],
+        [0,0,0,0,1,1,0,0,0,0,0],
+        [0,1,0,0,1,1,0,0,1,0,0],
 ]
 ArrayScreen = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 21, 0, 21, 0, 21, 0, 21, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 11, 1],
-    [1, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 11, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 1],
-    [1, 0, 0, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 1],
+    [1, 0, 21, 0, 21, 0, 21, 0, 21, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 11, 1], #1,19/29/30
+    [1, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 11, 1],#1,19/29/30
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 1],#1,19/29
+    [1, 0, 0, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 1], #4,19~30
     [1, 0, 0, 31, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 0, 31, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -343,7 +354,7 @@ ScoreScreen =[
 life = 5;G_time = 0.6;score = 0;temp_key = 0
 LED_init()
 while (life > 0):
-    G_top = 11;G_left = 25;Boss_top = 2;Boss_left = 21;key = 0
+    G_top = 11;G_left = 25;Boss_top = 8;Boss_left = 21;key = 0
     prograss(ArrayScreen,score);show_life(ArrayScreen,life);show_hand(ArrayScreen,temp_key)
     iScreen = Matrix(ArrayScreen);oScreen = Matrix(iScreen)
     set_mon_num = random.randint(1, 3)
@@ -412,16 +423,35 @@ while (life > 0):
                 tempBlk = iScreen.clip(top, left, top + curr_mon.get_dy(), left + curr_mon.get_dx());tempBlk = tempBlk + curr_mon
                 iScreen.paste(tempBlk, top, left)
                 break
+            elif (life <= 0):
+                end_print(0)
+                time.sleep(3)
+                break
             G_left -= 1 #총알 움직임
             time.sleep(G_time)
 #############################################BOSS###################################################
     else :
         G_time = 1 #다시 게임시간 간격 원래대로 조정
+        Boss_life = 5
+        temp_key = 0
+        for i in range(1,5):
+            if (1<= i <= 2):
+                ArrayScreen[i][19] = 0;ArrayScreen[i][29] = 0;ArrayScreen[i][30] = 0
+            elif (i == 3):
+                for j in range(19,31):
+                    ArrayScreen[i][j] = 0
+            elif (i == 4):
+                for j in range(19,31):
+                    ArrayScreen[i][j] = 0 # ArrayScreen 진행바 청소
         while(True):
+            show_life(ArrayScreen,life);show_hand(ArrayScreen,temp_key)
+            iScreen = Matrix(ArrayScreen);oScreen = Matrix(iScreen)
             BossBlk = Matrix(Boss)
             Boss_tempBlk = iScreen.clip(Boss_top, Boss_left, Boss_top + BossBlk.get_dy(), Boss_left + BossBlk.get_dx())
             Boss_tempBlk = Boss_tempBlk + BossBlk
             oScreen.paste(Boss_tempBlk, Boss_top, Boss_left)
+            show_boss_life(oScreen,Boss_life)
+            draw_led(oScreen)
             Boss_pick = random.randint(1, 3)
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -432,59 +462,65 @@ while (life > 0):
                         key = 'quit'
                     if event.key == ord('a'):
                         key = 'scissor'
+                        temp_key = 'scissor'
                     if event.key == ord('s'):
                         key = 'rock'
+                        temp_key = 'rock'
                     if event.key == ord('d'):
                         key = 'paper'
+                        temp_key = 'paper'
             if key == 'quit':
                 life = 0
                 break
-            elif key == 'scissor':  # 가위
-                if (Boss_pick == 3): #보
-                    time.sleep(1)
+            elif key == 'scissor':
+                if (Boss_pick == 3):
+                    #보스 피해입은 효과 구현
+                    Boss_life -= 1
                     score += 1
-                    break
                 else:
-                    if(Boss_pick == 1):
-                        life -= 1
-                    if (Boss_pick == 2):
-                        life -= 1
-            elif key == 'rock':  # 바위d
+                    life -= 1
+            elif key == 'rock':
                 if (Boss_pick == 1):
-                    time.sleep(1)
+                    #보스 피해입은 효과 구현
+                    Boss_life -= 1
                     score += 1
-                    break
                 else:
-                    if(Boss_pick == 2):
-                        life -= 1
-                    if (Boss_pick == 3):
-                        life -= 1
-            elif key == 'paper':  # 보
-                if (Boss_pick == 2): #주먹
-                    time.sleep(1)
+                    life -= 1
+            elif key == 'paper':
+                if (Boss_pick == 2):
+                    #보스 피해입은 효과 구현
+                    Boss_life -= 1
                     score += 1
-                    break
                 else:
-                    if(Boss_pick == 1):
-                        life -= 1
-                    if (Boss_pick == 3):
-                        life -= 1
+                    life -= 1
+            if (Boss_life == 1):
+                for i in range(13):
+                    for j in range(11):
+                        if (Boss[i][j] >= 0):
+                            Boss[i][j] = 11
+            elif (Boss_life == 3):
+                for i in range(13):
+                    for j in range(11):
+                        if (Boss[i][j] >= 0):
+                            Boss[i][j] = 21
             if (life <= 0):
+                end_print(0)
+                time.sleep(3)
+                break
+            elif (Boss_life <= 0):
+                score += 10
+                end_print(1)
+                time.sleep(3)
                 break
             time.sleep(10)
     if (life <= 0):
+        score += life * 3
         score_10 = score // 10;score_1 = score % 10
-        score_10_left = 8;score_10_top = 4
-        score_1_left = 15;score_1_top = 4
-        SiScreen = Matrix(ScoreScreen)
-        SoScreen = Matrix(SiScreen)
-        currBlk_1 = Matrix(set_score(score_1))
-        tempBlk_1 = SiScreen.clip(score_1_top, score_1_left, score_1_top + currBlk_1.get_dy(), score_1_left + currBlk_1.get_dx())
-        tempBlk_1 = tempBlk_1 + currBlk_1
-        SoScreen.paste(tempBlk_1, score_1_top, score_1_left)
-        currBlk_10 = Matrix(set_score(score_10))
-        tempBlk_10 = SiScreen.clip(score_10_top, score_10_left, score_10_top + currBlk_10.get_dy(),score_10_left + currBlk_10.get_dx())
-        tempBlk_10 = tempBlk_10 + currBlk_10
-        SoScreen.paste(tempBlk_10, score_10_top, score_10_left)
+        score_10_left = 8;score_10_top = 4;score_1_left = 15;score_1_top = 4
+        SiScreen = Matrix(ScoreScreen);SoScreen = Matrix(SiScreen)
+        currBlk_1 = Matrix(set_score(score_1));currBlk_10 = Matrix(set_score(score_10))
+        tempBlk_1 = SiScreen.clip(score_1_top, score_1_left, score_1_top + currBlk_1.get_dy(), score_1_left + currBlk_1.get_dx());tempBlk_1 = tempBlk_1 + currBlk_1
+        tempBlk_10 = SiScreen.clip(score_10_top, score_10_left, score_10_top + currBlk_10.get_dy(),score_10_left + currBlk_10.get_dx());tempBlk_10 = tempBlk_10 + currBlk_10
+        SoScreen.paste(tempBlk_1, score_1_top, score_1_left);SoScreen.paste(tempBlk_10, score_10_top, score_10_left)
         draw_led(SoScreen)
         break
