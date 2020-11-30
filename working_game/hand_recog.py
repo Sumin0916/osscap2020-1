@@ -3,7 +3,9 @@ import math
 import time
 import cv2 as cv
 from datetime import datetime, timedelta # 일정 시간동안 동작인식 함수를 작동시킴
-
+#import collections  //collections.counter을 이용해 인식한 동작 수를 셈, 안 쓸 것 같음 
+from pynput.keyboard import Key, Controller
+keyboard = Controller()
 
 def skinmask(roi):
     kernel = np.ones((3,3),np.uint8)  
@@ -36,10 +38,10 @@ def getHullnDefects(cnt,approx):
 
 def rps():
     cap = cv.VideoCapture(0) # '0' for webcam
-    cap.set(cv.CAP_PROP_FRAME_WIDTH,960) 
-    cap.set(cv.CAP_PROP_FRAME_HEIGHT,640)  
-    end_time = datetime.now() + timedelta(seconds=110) #10초간 입력을 받음 
-    while (1) and datetime.now() < end_time:
+    cap.set(cv.CAP_PROP_FRAME_WIDTH,960)
+    cap.set(cv.CAP_PROP_FRAME_HEIGHT,480)
+    end_time = datetime.now() + timedelta(seconds=1000) #10초간 입력을 받음 
+    while (1): #and datetime.now() < end_time:
         try:
             ret, frame = cap.read()
             frame=cv.flip(frame,1)
@@ -71,7 +73,6 @@ def rps():
                 c = math.sqrt((end[0] - far[0])**2 + (end[1] - far[1])**2)
                 s = (a+b+c)/2
                 ar = math.sqrt(s*(s-a)*(s-b)*(s-c))
-                
                 d=(2*ar)/a
                 
                 angle = math.acos((b**2 + c**2 - a**2)/(2*b*c)) * 57
@@ -92,19 +93,23 @@ def rps():
                 else:
                     if arearatio<12:
                         cv.putText(frame,'Rock',(0,50), font, 2, (0,0,255), 3, cv.LINE_AA)
+                        keyboard.press('s')
+                        keyboard.release('s')
                         
             elif fngr==2:
                 cv.putText(frame,'Scissors',(0,50), font, 2, (0,0,255), 3, cv.LINE_AA)
+                keyboard.press('a')
+                keyboard.release('a')
                 
-            elif fngr==5 or fngr ==4:
+            elif  fngr<=6 and fngr >=3:
                 cv.putText(frame,'Papers',(0,50), font, 2, (0,0,255), 3, cv.LINE_AA)
-                
-            elif fngr==6:
-                cv.putText(frame,'reposition',(0,50), font, 2, (0,0,255), 3, cv.LINE_AA)
-                
+                keyboard.press('d')
+                keyboard.release('d')
+               
+            
             else :
                 cv.putText(frame,'reposition',(10,50), font, 2, (0,0,255), 3, cv.LINE_AA)
-                
+        
         #show the windows
             cv.imshow('mask',mask_frame)
             cv.imshow('frame',frame)
@@ -118,6 +123,7 @@ def rps():
     
     cv.destroyAllWindows()
     cap.release()  
+
 
 if __name__ == "__main__":
     rps()
