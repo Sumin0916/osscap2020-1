@@ -1,9 +1,9 @@
+
 from matrix import *
 #import LED_display as LMD
 import threading
 import time
 import random
-import pygame as pg
 from pynput import keyboard
 from hand_recog import rps
 
@@ -12,11 +12,12 @@ from hand_recog import rps
 
 ##################Opencv 준비###################
 #새 스레드에서 hand_recog 파일이 돌아가도록 함#
-cv_thread=threading.Thread(target=rps, args=())
-cv_thread.setDaemon(True)
-cv_thread.start()
-time.sleep(10)# opencv 창이 게임과 함께 떠지도록 대기함 
-#키보드 입력으로 테스트를 하려면 15~18 라인을 주석처리하면 됨
+print("환경 세팅중....")
+#cv_thread=threading.Thread(target=rps, args=())
+#cv_thread.setDaemon(True)
+#cv_thread.start()
+#time.sleep(10)# opencv 창이 게임과 함께 떠지도록 대기함 
+키보드 입력으로 테스트를 하려면 15~18 라인을 주석처리하면 됨
 ###############################################
 
 ##############Pynput을 이용한 입력 받기###########
@@ -539,6 +540,8 @@ while (life > 0):
             oScreen.paste(Boss_tempBlk, Boss_top, Boss_left)
             show_boss_life(oScreen,Boss_life)
          #   draw_led(oScreen)
+            draw_matrix(oScreen)
+          
             Boss_pick = random.randint(1, 3)
             time.sleep(2)
             BossBlk = Matrix(Boss)
@@ -547,6 +550,8 @@ while (life > 0):
             oScreen.paste(Boss_tempBlk, Boss_top, Boss_left)
             show_boss_life(oScreen,Boss_life)
           #  draw_led(oScreen)
+            draw_matrix(oScreen)
+          
 
             key, temp_key = get_input(G_time) #입력 받음 
 
