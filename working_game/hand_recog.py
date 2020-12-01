@@ -38,15 +38,14 @@ def getHullnDefects(cnt,approx):
 
 def rps():
     cap = cv.VideoCapture(0) # '0' for webcam
-    cap.set(cv.CAP_PROP_FRAME_WIDTH,960)
-    cap.set(cv.CAP_PROP_FRAME_HEIGHT,480)
-    end_time = datetime.now() + timedelta(seconds=1000) #10초간 입력을 받음 
-    while (1): #and datetime.now() < end_time:
+    cap.set(cv.CAP_PROP_FRAME_WIDTH,800)
+    cap.set(cv.CAP_PROP_FRAME_HEIGHT,600)
+    while (1): 
         try:
             ret, frame = cap.read()
             frame=cv.flip(frame,1)
-            roi=frame[100:300, 100:300]  
-            cv.rectangle(frame,(100,100),(300,300),(0,255,0),0)  
+            roi=frame[100:500, 100:500]  
+            cv.rectangle(frame,(100,100),(500,500),(0,255,0),0)  
 
             mask_frame = skinmask(roi)
 
