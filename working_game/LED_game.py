@@ -544,6 +544,8 @@ while (life > 0):
                 for j in range(19,31):
                     ArrayScreen[i][j] = 0 # ArrayScreen 진행바 청소
         while(True):
+            ip = 4
+            temp_key = 0
             show_life(ArrayScreen,life);show_hand(ArrayScreen,temp_key)
             iScreen = Matrix(ArrayScreen);oScreen = Matrix(iScreen)
             BossBlk = Matrix(thinking_Boss)
@@ -551,8 +553,8 @@ while (life > 0):
             Boss_tempBlk = Boss_tempBlk + BossBlk
             oScreen.paste(Boss_tempBlk, Boss_top, Boss_left)
             show_boss_life(oScreen,Boss_life)
-            #draw_led(oScreen)
-            draw_matrix(oScreen)
+            draw_led(oScreen)
+            #draw_matrix(oScreen)
           
             Boss_pick = random.randint(1, 3)
             time.sleep(2)
@@ -561,11 +563,13 @@ while (life > 0):
             Boss_tempBlk = Boss_tempBlk + BossBlk
             oScreen.paste(Boss_tempBlk, Boss_top, Boss_left)
             show_boss_life(oScreen,Boss_life)
-            #draw_led(oScreen)
-            draw_matrix(oScreen)
+            draw_led(oScreen)
+            #draw_matrix(oScreen)
           
 
-            key, temp_key = get_input(G_time) #입력 받음 \
+            key, temp_key = None, None
+            listener = keyboard.Listener(on_press=on_press,on_release=on_release)
+            listener.start()#입력 받음 
            
 
             if key == 'quit':
