@@ -81,8 +81,6 @@ def draw_matrix(m):
                 print("■ ", end='')
         print()
 
-
-
 def draw_led(m):
     array = m.get_array()
     for y in range(m.get_dy()):
@@ -213,8 +211,7 @@ def die_mon(ArrayScreen):
         iScreen = Matrix(ArrayScreen)
         tempBlk = iScreen.clip(6, 22, 6 + effect.get_dy(), 22 + effect.get_dx());tempBlk = tempBlk + effect
         iScreen.paste(tempBlk, 6, 22)
-        oScreen = Matrix(iScreen)            
-        #draw_led(oScreen)
+        #oScreen = Matrix(iScreen);draw_led(oScreen)
         time.sleep(0.2)
 def prograss(array,score):
     if (score <= 9):
@@ -244,13 +241,13 @@ def hero_hit_react(array):
         array[10][2] = 0;array[10][4] = 0;array[10][5] = 0;array[11][4] = 0;array[11][5] = 0;array[12][4] = 0;array[12][6] = 0;array[13][3] = 0;array[13][6] = 0
         array[8][9] = 0;array[7][8] = 0;array[7][9] = 0;array[9][8] = 0;array[9][9] = 0
         iScreen = Matrix(array);oScreen = Matrix(iScreen)
-        #draw_led(oScreen)
+        draw_led(oScreen)
         time.sleep(0.2)
         array[4][4] = 31;array[4][5] = 31;array[5][3] = 31;array[5][6] = 31;array[6][3] = 31;array[6][6] = 31;array[7][4] = 31;array[7][5] = 31;array[14][2] = 31;array[14][6] = 31
         array[8][3] = 31;array[8][4] = 31;array[8][5] = 31;array[8][6] = 31;array[8][7] = 31;array[8][8] = 31;array[9][2] = 31;array[9][4] = 31;array[9][5] = 31
         array[10][2] = 31;array[10][4] = 31;array[10][5] = 31;array[11][4] = 31;array[11][5] = 31;array[12][4] = 31;array[12][6] = 31;array[13][3] = 31;array[13][6] = 31
         iScreen = Matrix(array);oScreen = Matrix(iScreen)
-        #draw_led(oScreen)
+        draw_led(oScreen)
         time.sleep(0.2) # 31
 def Boss_hit_react(array,Boss_array):
     Boss_hit_array = [[0,0,0,0,0,0,0,0,0,0,0],
@@ -269,16 +266,16 @@ def Boss_hit_react(array,Boss_array):
     for _ in range(3):
         effect = Matrix(Boss_hit_array)
         iScreen = Matrix(ArrayScreen);oScreen = Matrix(iScreen)
-        tempBlk = iScreen.clip(8, 21, 8 + effect.get_dy(), 21 + effect.get_dx());tempBlk = tempBlk + effect
-        iScreen.paste(tempBlk, 8, 21)
-        #draw_led(oScreen)
-        draw_matrix(oScreen);print()
+        tempBlk = iScreen.clip(2, 21, 2 + effect.get_dy(), 21 + effect.get_dx());tempBlk = tempBlk + effect
+        iScreen.paste(tempBlk, 2, 21)
+        draw_led(oScreen)
+        #draw_matrix(oScreen);print()
         time.sleep(0.2)
         effect = Matrix(Boss_array)
         iScreen = Matrix(ArrayScreen);oScreen = Matrix(iScreen)
-        tempBlk = iScreen.clip(8, 21, 8 + effect.get_dy(), 21 + effect.get_dx());tempBlk = tempBlk + effect
-        iScreen.paste(tempBlk, 8, 21)
-        #draw_led(oScreen)
+        tempBlk = iScreen.clip(2, 21, 2 + effect.get_dy(), 21 + effect.get_dx());tempBlk = tempBlk + effect
+        iScreen.paste(tempBlk, 2, 21)
+        draw_led(oScreen)
         time.sleep(0.2)
 iScreenDy = 14;iScreenDx = 30;iScreenDw = 1;top = 6;left = 22
 def set_score (score):
@@ -449,14 +446,14 @@ ScoreScreen =[
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
-life = 5;G_time = 0.6;score = 0;
+life = 5;G_time = 0.6;score = 0
 
 LED_init()
 while (life > 0):
     global ip, temp_key
     ip = 4
     temp_key = 0
-    G_top = 11;G_left = 25;Boss_top = 8;Boss_left = 21;key = 0
+    G_top = 11;G_left = 25;Boss_top = 2;Boss_left = 21;key = 0
     prograss(ArrayScreen,score);show_life(ArrayScreen,life);show_hand(ArrayScreen,temp_key)
     iScreen = Matrix(ArrayScreen);oScreen = Matrix(iScreen)
     set_mon_num = random.randint(1, 3)
@@ -476,8 +473,8 @@ while (life > 0):
             G_tempBlk = iScreen.clip(G_top, G_left, G_top + GunBlk.get_dy(), G_left + GunBlk.get_dx())
             G_tempBlk = G_tempBlk + GunBlk
             oScreen.paste(G_tempBlk, G_top, G_left)
-            #draw_led(oScreen)
-            draw_matrix(oScreen);print()
+            draw_led(oScreen)
+            #draw_matrix(oScreen);print()
             
             key, temp_key = None, None
             listener = keyboard.Listener(on_press=on_press,on_release=on_release)
@@ -566,12 +563,10 @@ while (life > 0):
             draw_led(oScreen)
             #draw_matrix(oScreen)
           
-
             key, temp_key = None, None
             listener = keyboard.Listener(on_press=on_press,on_release=on_release)
             listener.start()#입력 받음 
            
-
             if key == 'quit':
                 life = 0
                 break
@@ -629,6 +624,6 @@ while (life > 0):
         tempBlk_1 = SiScreen.clip(score_1_top, score_1_left, score_1_top + currBlk_1.get_dy(), score_1_left + currBlk_1.get_dx());tempBlk_1 = tempBlk_1 + currBlk_1
         tempBlk_10 = SiScreen.clip(score_10_top, score_10_left, score_10_top + currBlk_10.get_dy(),score_10_left + currBlk_10.get_dx());tempBlk_10 = tempBlk_10 + currBlk_10
         SoScreen.paste(tempBlk_1, score_1_top, score_1_left);SoScreen.paste(tempBlk_10, score_10_top, score_10_left)
-        #draw_led(SoScreen)
-        draw_matrix(oScreen);print()
+        draw_led(SoScreen)
+        #draw_matrix(oScreen);print()
         break
