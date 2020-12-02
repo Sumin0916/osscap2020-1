@@ -44,5 +44,4 @@ python3 LED_game.py
 
 
 ### 시연영상
-
-
+https://youtu.be/6W2B_ELxfUo
