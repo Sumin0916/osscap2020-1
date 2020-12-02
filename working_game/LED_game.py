@@ -11,9 +11,9 @@ global ip, temp_key
 #깜빡임 현상 있으므로 LED에서 테스트시 matrix 함수들은 주석처리해야 함 
 
 
-##################Opencv 준비###################
+##################Opencv 준비###################ad
 #새 스레드에서 hand_recog 파일이 돌아가도록 함#
-print("환경 세팅중....")
+#print("환경 세팅중....")
 #cv_thread=threading.Thread(target=rps, args=())
 #cv_thread.setDaemon(True)
 #cv_thread.start()
@@ -60,9 +60,9 @@ def show_boss_life(oScreen,life):
         if (i <= life):
             Boss_life_array[1][1+i] = 11
     Boss_life = Matrix(Boss_life_array)
-    Boss_tempBlk = iScreen.clip(0, 22, 0 + Boss_life.get_dy(), 22 + Boss_life.get_dx())
+    Boss_tempBlk = iScreen.clip(0, 23, 0 + Boss_life.get_dy(), 23 + Boss_life.get_dx())
     Boss_tempBlk = Boss_tempBlk + Boss_life
-    oScreen.paste(Boss_tempBlk, 0, 22)
+    oScreen.paste(Boss_tempBlk, 0, 23)
 
 
 #셸 매트릭스 테스트용 
@@ -149,39 +149,39 @@ def die_mon(ArrayScreen):
                 [0, 0, 0, 0, 0, 0, 0, 0]],
                 ##
                 [[0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 1, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 1, 0, 0],
                 [0, 0, 1, 1, 1, 0, 0, 0],
                 [0, 0, 0, 1, 1, 0, 0, 0],
                 [0, 0, 1, 0, 0, 1, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 1, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0]],
                 ##
-                [[0, 0, 0, 0, 0, 0, 0, 0],
+                [[0, 0, 1, 0, 0, 0, 0, 0],
                 [0, 0, 0, 1, 0, 0, 0, 0],
                 [0, 1, 0, 0, 0, 1, 1, 0],
                 [0, 0, 1, 1, 1, 0, 0, 0],
                 [0, 0, 0, 1, 1, 0, 1, 0],
                 [0, 0, 1, 0, 0, 1, 0, 0],
                 [0, 1, 0, 1, 0, 1, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0]],
+                [0, 0, 0, 0, 1, 0, 0, 0]],
                 ##
                 [[0, 0, 0, 1, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 1],
+                [0, 0, 1, 0, 0, 1, 0, 1],
                 [1, 1, 0, 0, 0, 1, 1, 0],
                 [0, 0, 1, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 1, 0, 0, 1, 0, 0],
+                [0, 0, 1, 1, 0, 1, 1, 0],
                 [0, 1, 0, 0, 0, 1, 0, 0],
                 [1, 0, 0, 0, 1, 0, 1, 0]],
                 ##
-                [[0, 0, 0, 0, 0, 0, 0, 0],
+                [[0, 0, 1, 0, 0, 1, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 1],
                 [1, 1, 0, 0, 0, 0, 1, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 1, 0, 0, 0, 1, 0, 0],
+                [0, 0, 0, 0, 0, 0, 1, 0],
+                [0, 1, 0, 1, 0, 1, 0, 0],
                 [1, 0, 0, 0, 0, 0, 1, 0]],
                 ##
                 [[0, 0, 0, 0, 0, 0, 0, 0],
@@ -189,10 +189,9 @@ def die_mon(ArrayScreen):
                 [1, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 1],
                 [0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0],
-                [1, 0, 0, 0, 0, 0, 1, 0]],
-                ##
+                [1, 0, 0, 1, 0, 0, 1, 0]],
                 [[0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0],
@@ -376,10 +375,10 @@ def set_score (score):
             [0, 0, 0, 1, 1, 1, 0, 0, 0]]
     return score_Blk
 Gun = [[11, 11]]
-Boss = [[0,11,0,0,0,0,0,0,0,11,0],
-        [0,11,11,0,0,0,0,0,11,11,0],
-        [0,11,11,1,1,1,1,1,11,11,0],
-        [0,0,1,1,1,1,1,1,1,0,0],
+Boss = [[0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,11,0,0,0,0,0,0,11,0],
+        [0,0,11,11,1,1,1,11,11,0,0],
+        [0,0,11,11,1,1,1,11,11,0,0],
         [0,0,1,1,0,0,0,1,1,0,0],
         [0,0,0,0,0,0,0,1,1,0,0],
         [0,0,0,0,0,0,1,1,0,0,0],
@@ -440,13 +439,10 @@ ScoreScreen =[
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
-life = 5;G_time = 0.6;score = 0
-
+life = 5;G_time = 0.6;score = 0;temp_key = 0
 LED_init()
 while (life > 0):
-    global ip, temp_key
     ip = 4
-    temp_key = 0
     G_top = 11;G_left = 25;Boss_top = 2;Boss_left = 21;key = 0
     prograss(ArrayScreen,score);show_life(ArrayScreen,life);show_hand(ArrayScreen,temp_key)
     iScreen = Matrix(ArrayScreen);oScreen = Matrix(iScreen)
@@ -454,11 +450,8 @@ while (life > 0):
     curr_mon = Matrix(set_array_mon(set_mon_num))
     tempBlk = iScreen.clip(top, left, top + curr_mon.get_dy(), left + curr_mon.get_dx());tempBlk = tempBlk + curr_mon
     iScreen.paste(tempBlk, top, left)
-    if (score != 10): #10마리 죽이면 보스전으로 이동함 (시작 스코어는 0)
-
-        print("Stand By.............") # 몬스터 죽이고 다음 몬스터 준비
-        ip =4
-        temp_key = 0
+    if (score != 10):
+        # 몬스터 죽이고 다음 몬스터 준비
         time.sleep(2)
 
         while (G_left >= 5):
@@ -474,7 +467,7 @@ while (life > 0):
             listener = keyboard.Listener(on_press=on_press,on_release=on_release)
             listener.start()
             #key, temp_key = get_input(G_time)  # 입력받음
-            print("\nsomething something Debug")
+            #print("\nsomething something Debug")
 
             if key == 'quit':
                 life = 0
@@ -534,6 +527,12 @@ while (life > 0):
             elif (i == 4):
                 for j in range(19,31):
                     ArrayScreen[i][j] = 0 # ArrayScreen 진행바 청소
+        for i in range(16):
+            for j in range(32):
+                if (i==0 | i==15):
+                    ArrayScreen[i][j] = 0
+                else:
+                    ArrayScreen[i][0] = 0;ArrayScreen[i][31] = 0 # 테두리 지우기
         while(True):
             ip = 4
             temp_key = 0
@@ -545,7 +544,6 @@ while (life > 0):
             oScreen.paste(Boss_tempBlk, Boss_top, Boss_left)
             show_boss_life(oScreen,Boss_life)
             draw_led(oScreen)
-            #draw_matrix(oScreen)
           
             Boss_pick = random.randint(1, 3)
             time.sleep(2)
@@ -553,9 +551,7 @@ while (life > 0):
             Boss_tempBlk = iScreen.clip(Boss_top, Boss_left, Boss_top + BossBlk.get_dy(), Boss_left + BossBlk.get_dx())
             Boss_tempBlk = Boss_tempBlk + BossBlk
             oScreen.paste(Boss_tempBlk, Boss_top, Boss_left)
-            show_boss_life(oScreen,Boss_life)
             draw_led(oScreen)
-            #draw_matrix(oScreen)
           
             key, temp_key = None, None
             listener = keyboard.Listener(on_press=on_press,on_release=on_release)
