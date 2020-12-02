@@ -38,7 +38,9 @@ cd osscap2020/working_game
 아래 파일만 실행하면 됨 
 python3 LED_game.py
 ```
-
+카메라 세팅 방법 넣어야 함 
 
 
 ### 시연영상
+
+
