@@ -9,11 +9,21 @@
 
 
 ### 준비과정
+#### pynput 설치
 ```
+pynput 라이브러리 설치
 sudo pip3 install pynput
+```
+#### OpenCV 설치
+```
+윈도우 환경에서 opencv는 아래의 pip 커맨드로 설치 가능
 sudo pip3 install opencv-python
 sudo pip3 install opencv-contrib-python
+
+라즈베리파이 환경에서는 아래 링크 설명을 따라 설치하였음
 ```
+https://webnautes.tistory.com/916
+
 
 
 
@@ -25,6 +35,7 @@ git clone https://github.com/caretop/osscap2020
 cd osscap2020/working_game
 ```
 ```
+아래 파일만 실행하면 됨 
 python3 LED_game.py
 ```
 
