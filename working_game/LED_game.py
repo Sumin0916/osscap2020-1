@@ -239,12 +239,13 @@ def show_life(array,life):
         count += 1
         if count >= life:
             break
-def show_hand(iScreen,key):
+def show_hand(ArrayScreen,key):
+    iScreen = Matrix(ArrayScreen)
     oScreen = Matrix(iScreen)
     hands_list = [[[0,0],[1,0],[0,0]],[[1,1],[1,1],[0,0]],[[0,1],[0,0],[0,1]],[[1,1],[1,1],[1,1]]]
     hands_Blk = Matrix(hands_list[0])
     H_tempBlk = iScreen.clip(7, 8, 7 + hands_Blk.get_dy(), 8 + hands_Blk.get_dx())
-    H_tempBlk = G_tempBlk + hands_Blk
+    H_tempBlk = H_tempBlk + hands_Blk
     oScreen.paste(H_tempBlk, 7, 8)
     if key == 'rock':
         hands = hands_list[1]
@@ -254,7 +255,7 @@ def show_hand(iScreen,key):
         hands = hands_list[2]
     hands_Blk = Matrix(hands)
     H_tempBlk = iScreen.clip(7, 8, 7 + hands_Blk.get_dy(), 8 + hands_Blk.get_dx())
-    H_tempBlk = G_tempBlk + hands_Blk
+    H_tempBlk = H_tempBlk + hands_Blk
     oScreen.paste(H_tempBlk, 7, 8)
     draw_led(oScreen)
 def hero_hit_react(array):
@@ -473,8 +474,8 @@ LED_init()
 while (life > 0):
     ip = 4
     G_top = 11;G_left = 25;Boss_top = 2;Boss_left = 21;key = 0
-    prograss(ArrayScreen,score);show_life(ArrayScreen,life);show_hand(iScreen,temp_key)
     iScreen = Matrix(ArrayScreen)
+    prograss(ArrayScreen,score);show_life(ArrayScreen,life);show_hand(ArrayScreen,temp_key)
     set_mon_num = random.randint(1, 3)
     curr_mon = Matrix(set_array_mon(set_mon_num))
     tempBlk = iScreen.clip(top, left, top + curr_mon.get_dy(), left + curr_mon.get_dx());tempBlk = tempBlk + curr_mon
@@ -564,7 +565,7 @@ while (life > 0):
         while(True):
             ip = 4
             temp_key = 0
-            show_life(ArrayScreen,life);show_hand(iScreen,temp_key)
+            show_life(ArrayScreen,life);show_hand(ArrayScreen,temp_key)
             iScreen = Matrix(ArrayScreen);oScreen = Matrix(iScreen)
             BossBlk = Matrix(thinking_Boss)
             Boss_tempBlk = iScreen.clip(Boss_top, Boss_left, Boss_top + BossBlk.get_dy(), Boss_left + BossBlk.get_dx())
