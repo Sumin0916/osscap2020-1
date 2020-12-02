@@ -2,7 +2,6 @@ import numpy as np
 import math
 import time
 import cv2 as cv
-from datetime import datetime, timedelta # 일정 시간동안 동작인식 함수를 작동시킴
 #import collections  //collections.counter을 이용해 인식한 동작 수를 셈, 안 쓸 것 같음 
 from pynput.keyboard import Key, Controller
 keyboard = Controller()
