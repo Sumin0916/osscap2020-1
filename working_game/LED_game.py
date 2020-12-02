@@ -18,16 +18,16 @@ def end_print(num):
     # if num == 1: 승리시 출력할 내용
     # elif num == 0 : 패배시 출력할 내용
 #setpixel param from 1: red,green,yellow,blue,pink,cyan,white,red..
-def show_boss_life(oScreen,life):
+def show_boss_life(oScreen,Boss_life):
     Boss_life_array = [[21,21,21,21,21,21,21],[21,0,0,0,0,0,21],[21,21,21,21,21,21,21]]
-    life -= 1
+    Boss_life -= 1
     for i in range(5):
-        if (i <= life):
+        if (i <= Boss_life):
             Boss_life_array[1][1+i] = 11
     Boss_life = Matrix(Boss_life_array)
-    Boss_tempBlk = iScreen.clip(8, 22, 8 + Boss_life.get_dy(), 22 + Boss_life.get_dx())
+    Boss_tempBlk = iScreen.clip(0, 23, 0 + Boss_life.get_dy(), 23 + Boss_life.get_dx())
     Boss_tempBlk = Boss_tempBlk + Boss_life
-    oScreen.paste(Boss_tempBlk, 8, 22)
+    oScreen.paste(Boss_tempBlk, 0, 23)
 def draw_led(m):
     array = m.get_array()
     for y in range(m.get_dy()):
@@ -154,24 +154,22 @@ def die_mon(ArrayScreen):
                 [0, 0, 0, 0, 0, 0, 0, 0]]]
     for i in range(8):
         effect = Matrix(effect_list[i])
-        iScreen = Matrix(ArrayScreen)
+        iScreen = Matrix(ArrayScreen);oScreen = Matrix(iScreen)
         tempBlk = iScreen.clip(6, 22, 6 + effect.get_dy(), 22 + effect.get_dx());tempBlk = tempBlk + effect
-        iScreen.paste(tempBlk, 6, 22)
-        oScreen = Matrix(iScreen)            
+        iScreen.paste(tempBlk, 6, 22)            
         draw_led(oScreen)
-        time.sleep(0.2)
+        time.sleep(0.3)
 def prograss(array,score):
     if (score <= 9):
         array[3][20+score] = 1
-
-def show_life(array,life):
+def show_life(array,hero_life):
     count = 0
     array[1][1] = 0;array[1][3] = 0;array[1][5] = 0;array[1][7] = 0;array[1][9] = 0
-    num_array = [1,3,5,7,9] #1, 3, 5, 7, 9
+    num_array = [1,3,5,7,9] 
     for i in num_array:
         array[1][i] = 11
         count += 1
-        if count >= life:
+        if count >= hero_life:
             break
 def show_hand(array,key):
     array[9][8] = 0;array[7][9] = 0;array[9][9] = 0;array[7][8] = 0;array[8][9] = 0;array[10][8] = 0;array[10][9] = 0
@@ -341,7 +339,6 @@ Boss = [[0,11,0,0,0,0,0,0,0,11,0],
         [0,0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,1,1,0,0,0,0,0],
         [0,0,0,0,1,1,0,0,0,0,0]]
-
 thinking_Boss = [[0,11,0,0,0,0,0,0,0,11,0],
                 [0,11,11,0,0,0,0,0,11,11,0],
                 [0,11,11,1,1,1,1,1,11,11,0],
@@ -391,17 +388,17 @@ ScoreScreen =[
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
-life = 5;G_time = 0.6;score = 0;temp_key = 0
+hero_life = 5;G_time = 0.6;score = 0;temp_key = 0
 LED_init()
-while (life > 0):
+while (hero_life > 0):
     G_top = 11;G_left = 25;Boss_top = 8;Boss_left = 21;key = 0
-    prograss(ArrayScreen,score);show_life(ArrayScreen,life);show_hand(ArrayScreen,temp_key)
+    prograss(ArrayScreen,score);show_life(ArrayScreen,hero_life);show_hand(ArrayScreen,temp_key)
     iScreen = Matrix(ArrayScreen);oScreen = Matrix(iScreen)
     set_mon_num = random.randint(1, 3)
     curr_mon = Matrix(set_array_mon(set_mon_num))
     tempBlk = iScreen.clip(top, left, top + curr_mon.get_dy(), left + curr_mon.get_dx());tempBlk = tempBlk + curr_mon
     iScreen.paste(tempBlk, top, left)
-    if (score != 10): #10마리 죽이면 보스전으로 이동함 (시작 스코어는 0)
+    if (score != 10):
         while (G_left >= 5):
             GunBlk = Matrix(Gun)
             oScreen = Matrix(iScreen)
@@ -426,7 +423,7 @@ while (life > 0):
                         key = 'paper'
                         temp_key = 'paper'
             if key == 'quit':
-                life = 0
+                hero_life = 0
                 break
             elif key == 'scissor':  # 가위
                 if (set_mon_num == 3):
@@ -456,14 +453,14 @@ while (life > 0):
                     die_mon(ArrayScreen)
                     break
             if (G_left == 5): #총알이 닿으면 피 1 깎임
-                life -= 1
+                hero_life -= 1
                 hero_hit_react(ArrayScreen)
                 set_mon_num = random.randint(1, 3)
                 curr_mon = Matrix(set_array_mon(set_mon_num))
                 tempBlk = iScreen.clip(top, left, top + curr_mon.get_dy(), left + curr_mon.get_dx());tempBlk = tempBlk + curr_mon
                 iScreen.paste(tempBlk, top, left)
                 break
-            elif (life <= 0):
+            elif (hero_life <= 0):
                 end_print(0)
                 time.sleep(3)
                 break
@@ -484,7 +481,7 @@ while (life > 0):
                 for j in range(19,31):
                     ArrayScreen[i][j] = 0 # ArrayScreen 진행바 청소
         while(True):
-            show_life(ArrayScreen,life);show_hand(ArrayScreen,temp_key)
+            show_life(ArrayScreen,hero_life);show_hand(ArrayScreen,temp_key)
             iScreen = Matrix(ArrayScreen);oScreen = Matrix(iScreen)
             BossBlk = Matrix(thinking_Boss)
             Boss_tempBlk = iScreen.clip(Boss_top, Boss_left, Boss_top + BossBlk.get_dy(), Boss_left + BossBlk.get_dx())
@@ -517,7 +514,7 @@ while (life > 0):
                         key = 'paper'
                         temp_key = 'paper'
             if key == 'quit':
-                life = 0
+                hero_life = 0
                 break
             elif key == 'scissor':
                 if (Boss_pick == 3):
@@ -526,7 +523,7 @@ while (life > 0):
                     score += 1
                 else:
                     hero_hit_react(ArrayScreen)
-                    life -= 1
+                    hero_life -= 1
             elif key == 'rock':
                 if (Boss_pick == 1):
                     Boss_hit_react(ArrayScreen,Boss)
@@ -534,7 +531,7 @@ while (life > 0):
                     score += 1
                 else:
                     hero_hit_react(ArrayScreen)
-                    life -= 1
+                    hero_life -= 1
             elif key == 'paper':
                 if (Boss_pick == 2):
                     Boss_hit_react(ArrayScreen,Boss)
@@ -542,7 +539,7 @@ while (life > 0):
                     score += 1
                 else:
                     hero_hit_react(ArrayScreen)
-                    life -= 1
+                    hero_life -= 1
             if (Boss_life == 1):
                 for i in range(13):
                     for j in range(11):
@@ -555,7 +552,7 @@ while (life > 0):
                         if (Boss[i][j] >= 0):
                             Boss[i][j] = 21
                             thinking_Boss[i][j] = 21
-            if (life <= 0):
+            if (hero_life <= 0):
                 end_print(0)
                 time.sleep(3)
                 break
@@ -564,8 +561,8 @@ while (life > 0):
                 end_print(1)
                 time.sleep(3)
                 break
-    if (life <= 0):
-        score += life * 3
+    if (hero_life <= 0):
+        score += hero_life * 3
         score_10 = score // 10;score_1 = score % 10
         score_10_left = 8;score_10_top = 4;score_1_left = 15;score_1_top = 4
         SiScreen = Matrix(ScoreScreen);SoScreen = Matrix(SiScreen)
