@@ -40,12 +40,13 @@ def rps():
     cap = cv.VideoCapture(0) # '0' for webcam
     cap.set(cv.CAP_PROP_FRAME_WIDTH,800)
     cap.set(cv.CAP_PROP_FRAME_HEIGHT,600)
+    cap.set(cv.CAP_PROP_FPS,5)
     while (1): 
         try:
             ret, frame = cap.read()
             frame=cv.flip(frame,1)
             roi=frame[100:500, 100:500]  
-            cv.rectangle(frame,(100,100),(500,500),(0,255,0),0)  
+            cv.rectangle(frame,(100,100),(500,500),(0,255,0),0) 
 
             mask_frame = skinmask(roi)
 
