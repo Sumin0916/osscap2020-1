@@ -600,12 +600,18 @@ while (life > 0):
                     for j in range(11):
                         if (Boss[i][j] > 0):
                             Boss[i][j] = 11
-                            thinking_Boss[i][j] = 11
+                    for i in range(13):
+                        for j in range(11):
+                            if (thinking_Boss[i][j] > 0):
+                                thinking_Boss[i][j] = 11
             elif (Boss_life == 3):
                 for i in range(13):
                     for j in range(11):
                         if (Boss[i][j] > 0):
                             Boss[i][j] = 21
+                for i in range(13):
+                    for j in range(11):
+                        if (thinking_Boss[i][j] > 0):
                             thinking_Boss[i][j] = 21
             if (life <= 0):
                 end_print(0)
@@ -616,7 +622,7 @@ while (life > 0):
                 end_print(1)
                 time.sleep(3)
                 break
-    if (life <= 0):
+    if (life <= 0 or Boss_life <= 0):
         score += life * 3
         score_10 = score // 10;score_1 = score % 10
         score_10_left = 8;score_10_top = 4;score_1_left = 15;score_1_top = 4
