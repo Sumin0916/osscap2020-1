@@ -4,23 +4,23 @@
 1. 영상 인식을 위한 오픈 소스: https://github.com/opencv/opencv
 2. 키입력을 위한 오픈 소스: https://github.com/moses-palmer/pynput
 3. LED 출력 오픈 소스: https://github.com/hzeller/rpi-rgb-led-matrix
-
+4. 동작인식 관련하여 넘파이 사용: https://github.com/numpy/numpy
 
 
 
 ### 준비과정
-#### pynput 설치
+#### Raspberry pi Camera Module을 연결 :http://www.3demp.com/community/boardDetails.php?cbID=233
+
+#### pynput과 numpy 설치
 ```
-pynput 라이브러리 설치
 sudo pip3 install pynput
+sudo pip3 install numpy
 ```
 #### OpenCV 설치
 ```
-윈도우 환경에서 opencv는 아래의 pip 커맨드로 설치 가능
-sudo pip3 install opencv-python
+아래의 pip 커맨드로 설치 가능
 sudo pip3 install opencv-contrib-python
-
-라즈베리파이 환경에서는 아래 링크 설명을 따라 설치하였음
+오류가 발생한다면 아래 링크를 따라 설치 
 ```
 https://webnautes.tistory.com/916
 
@@ -35,10 +35,11 @@ git clone https://github.com/caretop/osscap2020
 cd osscap2020/game_final
 ```
 ```
-아래 파일만 실행하면 됨 
 python3 LED_game.py
 ```
-카메라 세팅 방법 넣어야 함 
+- 영상인식 모드로 게임 실행시, 카메라 모듈에 손이 비치도록 조정해야 인식이 시작됨
+- 또한 초록색 사각형 범위 안에 손이 들어가야 인식됨 
+
 
 
 ### 시연영상
