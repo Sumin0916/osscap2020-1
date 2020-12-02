@@ -32,7 +32,7 @@ https://webnautes.tistory.com/916
 git clone https://github.com/caretop/osscap2020
 ```
 ```
-cd osscap2020/working_game
+cd osscap2020/game_final
 ```
 ```
 아래 파일만 실행하면 됨 
