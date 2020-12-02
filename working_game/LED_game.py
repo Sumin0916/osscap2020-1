@@ -220,14 +220,23 @@ def show_life(array,life):
         count += 1
         if count >= life:
             break
-def show_hand(array,key):
-    array[9][8] = 0;array[7][9] = 0;array[9][9] = 0;array[7][8] = 0;array[8][9] = 0;array[10][8] = 0;array[10][9] = 0
+def show_hand(oScreen,key):
+    hands_list = [[[0,0],[1,0],[0,0]],[[1,1],[1,1],[0,0]],[[0,1],[0,0],[0,1]],[[1,1],[1,1],[1,1]]]
+    hands_Blk = Matrix(hands_list[0])
+    H_tempBlk = iScreen.clip(7, 8, 7 + hands_Blk.get_dy(), 8 + hands_Blk.get_dx())
+    H_tempBlk = G_tempBlk + hands_Blk
+    oScreen.paste(H_tempBlk, 7, 8)
     if key == 'rock':
-        array[7][8] = 31;array[7][9] = 31;array[8][9] = 31
+        hands = hands_list[1]
     elif key == 'paper':
-        array[7][8] = 31;array[7][9] = 31;array[8][9] = 31;array[9][8] = 31;array[9][9] = 31
+        hands = hands_list[3]
     elif key == 'scissor':
-        array[7][9] = 31;array[9][9] = 31
+        hands = hands_list[2]
+    hands_Blk = Matrix(hands)
+    H_tempBlk = iScreen.clip(7, 8, 7 + hands_Blk.get_dy(), 8 + hands_Blk.get_dx())
+    H_tempBlk = G_tempBlk + hands_Blk
+    oScreen.paste(H_tempBlk, 7, 8)
+    draw_led(oScreen)
 def hero_hit_react(array):
     for _ in range(3):
         array[4][4] = 0;array[4][5] = 0;array[5][3] = 0;array[5][6] = 0;array[6][3] = 0;array[6][6] = 0;array[7][4] = 0;array[7][5] = 0;array[14][2] = 0;array[14][6] = 0
@@ -410,7 +419,7 @@ ArrayScreen = [
     [1, 0, 0, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 1],
     [1, 0, 0, 31, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 0, 31, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],#7,8
     [1, 0, 0, 31, 31, 31, 31, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 31, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 31, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -449,19 +458,17 @@ while (life > 0):
     set_mon_num = random.randint(1, 3)
     curr_mon = Matrix(set_array_mon(set_mon_num))
     tempBlk = iScreen.clip(top, left, top + curr_mon.get_dy(), left + curr_mon.get_dx());tempBlk = tempBlk + curr_mon
-    iScreen.paste(tempBlk, top, left)
+    oScreen.paste(tempBlk, top, left)
     if (score != 10):
         # 몬스터 죽이고 다음 몬스터 준비
         time.sleep(2)
 
         while (G_left >= 5):
             GunBlk = Matrix(Gun)
-            oScreen = Matrix(iScreen)
             G_tempBlk = iScreen.clip(G_top, G_left, G_top + GunBlk.get_dy(), G_left + GunBlk.get_dx())
             G_tempBlk = G_tempBlk + GunBlk
             oScreen.paste(G_tempBlk, G_top, G_left)
             draw_led(oScreen)
-            #draw_matrix(oScreen);print()
             
             key, temp_key = None, None
             listener = keyboard.Listener(on_press=on_press,on_release=on_release)
