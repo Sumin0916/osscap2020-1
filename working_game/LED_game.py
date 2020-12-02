@@ -536,7 +536,7 @@ while (life > 0):
                     ArrayScreen[i][j] = 0 # ArrayScreen 진행바 청소
         for i in range(16):
             for j in range(32):
-                if (i==0 | i==15):
+                if (i==0 or i==15):
                     ArrayScreen[i][j] = 0
                 else:
                     ArrayScreen[i][0] = 0;ArrayScreen[i][31] = 0 # 테두리 지우기
@@ -562,7 +562,7 @@ while (life > 0):
           
             key, temp_key = None, None
             listener = keyboard.Listener(on_press=on_press,on_release=on_release)
-            listener.start()#입력 받음 
+            listener.start()#입력 받기 시작
            
             if key == 'quit':
                 life = 0
