@@ -14,9 +14,9 @@ global ip, temp_key
 ##################Opencv 준비###################ad
 #새 스레드에서 hand_recog 파일이 돌아가도록 함#
 #print("환경 세팅중....")
-#cv_thread=threading.Thread(target=rps, args=())
-#cv_thread.setDaemon(True)
-#cv_thread.start()
+cv_thread=threading.Thread(target=rps, args=())
+cv_thread.setDaemon(True)
+cv_thread.start()
 #time.sleep(10)# opencv 창이 게임과 함께 떠지도록 대기함 
 #키보드 입력으로 테스트를 하려면 15~18 라인을 주석처리하면 됨
 ###############################################
@@ -49,27 +49,8 @@ def LED_init():
 
 def end_print(num):
     pass
-    end_Screen =[
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-]
-    #if num == 1: #승리시 출력할 내용 Clear!
-        
-    #elif num == 0 : #패배시 출력할 내용 Game over...
+    # if num == 1: 승리시 출력할 내용
+    # elif num == 0 : 패배시 출력할 내용
 
 #setpixel param from 1: red,green,yellow,blue,pink,cyan,white,red..
 def show_boss_life(oScreen,life):
@@ -239,24 +220,14 @@ def show_life(array,life):
         count += 1
         if count >= life:
             break
-def show_hand(iScreen,key):
-    oScreen = Matrix(iScreen)
-    hands_list = [[[0,0],[1,0],[0,0]],[[1,1],[1,1],[0,0]],[[0,1],[0,0],[0,1]],[[1,1],[1,1],[1,1]]]
-    hands_Blk = Matrix(hands_list[0])
-    H_tempBlk = iScreen.clip(7, 8, 7 + hands_Blk.get_dy(), 8 + hands_Blk.get_dx())
-    H_tempBlk = G_tempBlk + hands_Blk
-    oScreen.paste(H_tempBlk, 7, 8)
+def show_hand(array,key):
+    array[9][8] = 0;array[7][9] = 0;array[9][9] = 0;array[7][8] = 0;array[8][9] = 0;array[10][8] = 0;array[10][9] = 0
     if key == 'rock':
-        hands = hands_list[1]
+        array[7][8] = 31;array[7][9] = 31;array[8][9] = 31
     elif key == 'paper':
-        hands = hands_list[3]
+        array[7][8] = 31;array[7][9] = 31;array[8][9] = 31;array[9][8] = 31;array[9][9] = 31
     elif key == 'scissor':
-        hands = hands_list[2]
-    hands_Blk = Matrix(hands)
-    H_tempBlk = iScreen.clip(7, 8, 7 + hands_Blk.get_dy(), 8 + hands_Blk.get_dx())
-    H_tempBlk = G_tempBlk + hands_Blk
-    oScreen.paste(H_tempBlk, 7, 8)
-    draw_led(oScreen)
+        array[7][9] = 31;array[9][9] = 31
 def hero_hit_react(array):
     for _ in range(3):
         array[4][4] = 0;array[4][5] = 0;array[5][3] = 0;array[5][6] = 0;array[6][3] = 0;array[6][6] = 0;array[7][4] = 0;array[7][5] = 0;array[14][2] = 0;array[14][6] = 0
@@ -439,7 +410,7 @@ ArrayScreen = [
     [1, 0, 0, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 1],
     [1, 0, 0, 31, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 0, 31, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],#7,8
+    [1, 0, 0, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 0, 31, 31, 31, 31, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 31, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 31, 0, 31, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -468,28 +439,29 @@ ScoreScreen =[
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
-life = 5;G_time = 0.6;score = 0;temp_key = 0
+life = 5;G_time = 1;score = 9;temp_key = 0
 LED_init()
 while (life > 0):
     ip = 4
     G_top = 11;G_left = 25;Boss_top = 2;Boss_left = 21;key = 0
-    prograss(ArrayScreen,score);show_life(ArrayScreen,life);show_hand(iScreen,temp_key)
-    iScreen = Matrix(ArrayScreen)
+    prograss(ArrayScreen,score);show_life(ArrayScreen,life);show_hand(ArrayScreen,temp_key)
+    iScreen = Matrix(ArrayScreen);oScreen = Matrix(iScreen)
     set_mon_num = random.randint(1, 3)
     curr_mon = Matrix(set_array_mon(set_mon_num))
     tempBlk = iScreen.clip(top, left, top + curr_mon.get_dy(), left + curr_mon.get_dx());tempBlk = tempBlk + curr_mon
-    oScreen = Matrix(iScreen)
-    oScreen.paste(tempBlk, top, left)
+    iScreen.paste(tempBlk, top, left)
     if (score != 10):
         # 몬스터 죽이고 다음 몬스터 준비
         time.sleep(2)
 
         while (G_left >= 5):
             GunBlk = Matrix(Gun)
+            oScreen = Matrix(iScreen)
             G_tempBlk = iScreen.clip(G_top, G_left, G_top + GunBlk.get_dy(), G_left + GunBlk.get_dx())
             G_tempBlk = G_tempBlk + GunBlk
             oScreen.paste(G_tempBlk, G_top, G_left)
             draw_led(oScreen)
+            #draw_matrix(oScreen);print()
             
             key, temp_key = None, None
             listener = keyboard.Listener(on_press=on_press,on_release=on_release)
@@ -557,14 +529,14 @@ while (life > 0):
                     ArrayScreen[i][j] = 0 # ArrayScreen 진행바 청소
         for i in range(16):
             for j in range(32):
-                if (i==0 or i==15):
+                if (i==0 | i==15):
                     ArrayScreen[i][j] = 0
                 else:
                     ArrayScreen[i][0] = 0;ArrayScreen[i][31] = 0 # 테두리 지우기
         while(True):
             ip = 4
             temp_key = 0
-            show_life(ArrayScreen,life);show_hand(iScreen,temp_key)
+            show_life(ArrayScreen,life);show_hand(ArrayScreen,temp_key)
             iScreen = Matrix(ArrayScreen);oScreen = Matrix(iScreen)
             BossBlk = Matrix(thinking_Boss)
             Boss_tempBlk = iScreen.clip(Boss_top, Boss_left, Boss_top + BossBlk.get_dy(), Boss_left + BossBlk.get_dx())
@@ -572,7 +544,7 @@ while (life > 0):
             oScreen.paste(Boss_tempBlk, Boss_top, Boss_left)
             show_boss_life(oScreen,Boss_life)
             draw_led(oScreen)
-
+          
             Boss_pick = random.randint(1, 3)
             time.sleep(2)
             BossBlk = Matrix(Boss)
@@ -580,15 +552,15 @@ while (life > 0):
             Boss_tempBlk = Boss_tempBlk + BossBlk
             oScreen.paste(Boss_tempBlk, Boss_top, Boss_left)
             draw_led(oScreen)
-
+          
             key, temp_key = None, None
             listener = keyboard.Listener(on_press=on_press,on_release=on_release)
-            listener.start()#입력 받기 시작
+            listener.start()#입력 받음 
            
             if key == 'quit':
                 life = 0
                 break
-            elif key == 'scissor':
+            elif ip == 'scissor':
                 if (Boss_pick == 3):
                     Boss_hit_react(ArrayScreen,Boss)
                     Boss_life -= 1
@@ -596,7 +568,7 @@ while (life > 0):
                 else:
                     hero_hit_react(ArrayScreen)
                     life -= 1
-            elif key == 'rock':
+            elif ip == 'rock':
                 if (Boss_pick == 1):
                     Boss_hit_react(ArrayScreen,Boss)
                     Boss_life -= 1
@@ -604,7 +576,7 @@ while (life > 0):
                 else:
                     hero_hit_react(ArrayScreen)
                     life -= 1
-            elif key == 'paper':
+            elif ip == 'paper':
                 if (Boss_pick == 2):
                     Boss_hit_react(ArrayScreen,Boss)
                     Boss_life -= 1
@@ -617,18 +589,12 @@ while (life > 0):
                     for j in range(11):
                         if (Boss[i][j] > 0):
                             Boss[i][j] = 11
-                for i in range(13):
-                    for j in range(11):
-                        if (thinking_Boss[i][j] > 0):
                             thinking_Boss[i][j] = 11
             elif (Boss_life == 3):
                 for i in range(13):
                     for j in range(11):
                         if (Boss[i][j] > 0):
                             Boss[i][j] = 21
-                for i in range(13):
-                    for j in range(11):
-                        if (thinking_Boss[i][j] > 0):
                             thinking_Boss[i][j] = 21
             if (life <= 0):
                 end_print(0)
