@@ -439,7 +439,7 @@ ScoreScreen =[
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
-life = 5;G_time = 1;score = 9;temp_key = 0
+life = 5;G_time = 1;score = 0;temp_key = 0
 LED_init()
 while (life > 0):
     ip = 4
